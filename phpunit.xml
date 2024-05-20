@@ -3,8 +3,11 @@
          colors="true"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="Application Test Suite">
-            <directory suffix="Test.php">./tests</directory>
+        <testsuite name="Features test suite">
+            <directory suffix="Test.php">./tests/Feature</directory>
+        </testsuite>
+        <testsuite name="Archtecture test suite">
+            <directory suffix="Test.php">./tests/Architecture</directory>
         </testsuite>
     </testsuites>
 </phpunit>
