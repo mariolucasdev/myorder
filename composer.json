@@ -9,5 +9,16 @@
         "psr-4": {
             "App\\": "src/"
         }
+    },
+    "require-dev": {
+        "pestphp/pest": "^2.34"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "test": "pest --colors=always"
     }
 }

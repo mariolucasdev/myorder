@@ -12,3 +12,8 @@ setup:
 	@echo "Instalando dependências... 📦"
 	@echo "======================================="
 	@docker compose exec app composer install --no-interaction
+	@echo "Adicionando Pest para testes... 🧪"
+	@echo "======================================="
+	@docker compose exec app composer require pestphp/pest --dev --with-all-dependencies
+	@docker compose exec app mkdir -p ./vendor/pestphp/pest/.temp
+	@docker compose exec app chmod -R 777 ./vendor/pestphp/pest/.temp
