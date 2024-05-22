@@ -1,1 +1,4 @@
 vendor/
+.docker/db/mysql/*
+!.docker/db/mysql
+.env
