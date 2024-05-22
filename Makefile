@@ -1,7 +1,7 @@
 DOCKER_COMPOSE := $(shell command -v docker compose 2> /dev/null)
 
 ifndef DOCKER_COMPOSE
-$(error "docker-compose is not installed or not in your PATH")
+$(error "docker compose is not installed or not in your PATH")
 endif
 
 setup: 
@@ -17,3 +17,15 @@ setup:
 	@docker compose exec app composer require pestphp/pest --dev --with-all-dependencies
 	@docker compose exec app mkdir -p ./vendor/pestphp/pest/.temp
 	@docker compose exec app chmod -R 777 ./vendor/pestphp/pest/.temp
+	@echo "Connfigurando banco de dados... 🗃️"
+	@echo "======================================="
+	@mkdir -p ./.docker/db/mysql
+	@echo "Permissões para pastas:"
+	@echo "	📁 .docker/db/mysql"
+	@echo "	📁 storage/cache"
+	@echo "======================================="
+	@sudo chmod -R 755 ./.docker/db/mysql
+	@sudo chmod -R 755 ./storage/cache
+	@echo "Configurando ambiente... 🛠️"
+	@echo "======================================="
+	@docker compose exec app cp .env.example .env
