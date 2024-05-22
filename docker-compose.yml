@@ -10,15 +10,14 @@ services:
     depends_on:
       - db
   db:
-    image: postgres:13
+    image: mysql:5.7
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: db_myorder
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_myorder
+      MYSQL_USER: db_myorder_user
+      MYSQL_PASSWORD: db_myorder_pass
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
-      - pgdata:/var/lib/postgresql/data
-
-volumes:
-  pgdata:
+      - ./.docker/db/mysql:/var/lib/mysql
+      - ./.docker/db/init:/docker-entrypoint-initdb.d
