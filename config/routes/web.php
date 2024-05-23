@@ -1,21 +1,22 @@
 <?php
 
 use App\Controllers\UserController;
+use App\Controllers\AuthController;
 use Core\Libraries\Route;
 use Core\Libraries\View;
 
-// Route::get('/', function () {
-//     return View::render('home');
-// });
-
-Route::get('/auth/login', function () {
-    View::render('auth/login', [
-        'title' => 'Login'
-    ]);
+Route::get('/', function () {
+    return View::render('home');
 });
 
+Route::get('/auth/login', function () {
+    return View::render('auth/login', [ 'title' => 'Login' ]);
+});
+
+Route::post('/auth/authenticate', [AuthController::class, 'login']);
+
 Route::get('/auth/register', function () {
-    View::render('auth/register', [
+    return View::render('auth/register', [
         'title' => 'Fazer Registro'
     ]);
 });

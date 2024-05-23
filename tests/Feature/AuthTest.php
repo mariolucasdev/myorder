@@ -19,6 +19,22 @@ test('should display login form', function () {
         ->toContain('Login');
 });
 
+test('should login user', function () {
+    $client = new Client();
+
+    $response = $client->post(BASE_URL . '/auth/authenticate', [
+        'form_params' => [
+            'email' => 'mariolucasdev@gmail.com',
+            'birth_date' => '1994-06-22'
+        ]
+    ]);
+
+    expect($response->getStatusCode())
+        ->toBe(200);
+    expect((string) $response->getBody())
+        ->toContain('Usuários Cadastrados');
+});
+
 test('should display register form', function () {
     $client = new Client();
 

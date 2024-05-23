@@ -29,8 +29,7 @@ class View
         $twig->addGlobal('auth', Session::get('auth'));
 
         /* session user data */
-        $twig->addGlobal('id', Session::has('id') ? Session::get('id') : null);
-        $twig->addGlobal('name', Session::has('name') ? Session::get('name') : null);
+        $twig->addGlobal('user', Session::has('user') ? Session::get('user') : null);
 
         /* session fash */
         $twig->addGlobal('success', Session::has('success') ? Session::flash('success') : null);

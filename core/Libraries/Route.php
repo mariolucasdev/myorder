@@ -91,7 +91,7 @@ final class Route
         if ($requestUri === $route) {
 
             if($requestMethod !== 'POST') {
-                header("HTTP/1.0 405 Method Not Allowed");
+                // header("HTTP/1.0 405 Method Not Allowed");
 
                 exit;
             }
