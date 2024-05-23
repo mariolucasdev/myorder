@@ -10,7 +10,7 @@ Database::init();
 
 const BASE_URL = 'http://localhost:8000';
 
-test('can see user list', function () {
+test('should display list of users', function () {
     $client = new Client();
 
     $response = $client->get(BASE_URL . '/users');
@@ -21,7 +21,7 @@ test('can see user list', function () {
         ->toContain('Usuários Cadastrados');
 });
 
-test('can see user create form', function () {
+test('must display form for user editing', function () {
     $client = new Client([
         'base_uri' => BASE_URL
     ]);
@@ -40,7 +40,7 @@ test('can see user create form', function () {
         ->toContain('name="birth_date"');
 });
 
-test('should be created a new user', function () {
+test('must create a new user', function () {
     $client = new Client();
 
     $user = [
@@ -62,7 +62,7 @@ test('should be created a new user', function () {
         ->toContain($user['email']);
 });
 
-test('can see user edit form', function () {
+test('should display dorm for user editing', function () {
     $client = new Client();
 
     $user = User::create([
@@ -114,4 +114,22 @@ test('user has been updated', function () {
         ->toContain($newUserData['first_name'])
         ->toContain($newUserData['last_name'])
         ->toContain($newUserData['email']);
+});
+
+test('must delete user', function () {
+    $client = new Client();
+
+    $user = User::create([
+        'first_name' => fake()->firstName(),
+        'last_name' => fake()->lastName(),
+        'document' => fake()->shuffleString('0123456789'),
+        'email' => fake()->email(),
+        'phone_number' => fake()->shuffleString('01234567899'),
+        'birth_date' => fake()->date('Y-m-d'),
+    ]);
+
+    $response = $client->delete(BASE_URL . "/user/{$user->id}/delete");
+
+    expect($response->getStatusCode())
+        ->toBe(200);
 });

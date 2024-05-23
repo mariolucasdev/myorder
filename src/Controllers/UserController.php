@@ -109,4 +109,27 @@ class UserController extends Controller implements UserControllerInterface
 
         $this->redirect('/users');
     }
+
+    /**
+     * delete user
+     *
+     * @param int $id
+     * @return void
+     */
+    public function delete(int $id): void
+    {
+        $user = User::find($id);
+
+        if(! $user) {
+            Session::flash('error', 'Usuário não encontrado!');
+
+            $this->redirect('/users');
+        }
+
+        $user->delete();
+
+        Session::flash('success', 'Usuário deletado com sucesso!');
+
+        $this->redirect('/users');
+    }
 }
