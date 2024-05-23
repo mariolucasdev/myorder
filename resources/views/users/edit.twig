@@ -3,7 +3,6 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content %}
-
     <div class="col-lg-8 mx-auto py-4 d-flex align-items-center justify-content-between">
         <h3>{{ title }}</h3>
 
@@ -13,39 +12,38 @@
     </div>
 
     <div class="col-lg-8 mx-auto">
-        <form action="{{ BASE_URL }}/user/store" method="POST">
+        <form action="{{ BASE_URL }}/user/{{ user.id }}/update" method="POST">
             <div class="form-group">
                 <label for="first_name">Nome</label>
-                <input placeholder="Seu nome" type="text" class="form-control" id="first_name" name="first_name" required>
+                <input placeholder="Seu nome" type="text" value="{{ user.first_name }}" class="form-control" id="first_name" name="first_name" required>
             </div>
 
             <div class="form-group">
                 <label for="last_name">Sobrenome</label>
-                <input placeholder="Sobrenome" type="text" class="form-control" id="last_name" name="last_name" required>
+                <input placeholder="Sobrenome" type="text" value="{{ user.last_name }}" class="form-control" id="last_name" name="last_name" required>
             </div>
            
             <div class="form-group">
                 <label for="document">Documento</label>
-                <input placeholder="CPF" type="text" class="form-control" id="document" name="document" required>
+                <input placeholder="CPF" type="text" value="{{ user.document }}" class="form-control" id="document" name="document" required>
             </div>
 
             <div class="form-group">
                 <label for="email">E-mail</label>
-                <input type="email" placeholder="seu@email.com" class="form-control" id="email" name="email" required>
+                <input type="email" placeholder="seu@email.com" value="{{ user.email }}" class="form-control" id="email" name="email" required>
             </div>
 
             <div class="form-group">
                 <label for="phone_number">Telefone</label>
-                <input type="text" placeholder="(99) 9 9999-9999" class="form-control" id="phone_number" name="phone_number" required>
+                <input type="text" placeholder="(99) 9 9999-9999" value="{{ user.phone_number }}" class="form-control" id="phone_number" name="phone_number" required>
             </div>
 
             <div class="form-group">
                 <label for="birth_date">Data de Nascimento</label>
-                <input type="date" class="form-control" id="birth_date" name="birth_date">
+                <input type="date" class="form-control" id="birth_date" value="{{ user.birth_date }}" name="birth_date">
             </div>
 
             <button type="submit" class="btn btn-primary mt-3">Salvar</button>
         </form>
     </div>
-
 {% endblock %}

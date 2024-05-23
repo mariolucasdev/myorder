@@ -63,6 +63,12 @@ class UserController extends Controller implements UserControllerInterface
         $this->redirect('/users');
     }
 
+    /**
+     * edit user form
+     *
+     * @param int $id
+     * @return void
+     */
     public function edit(int $id): void
     {
         $title = "Editar Usuário";
@@ -75,6 +81,32 @@ class UserController extends Controller implements UserControllerInterface
             $this->redirect('/users');
         }
 
-        $this->view('users/create', compact('title', 'user'));
+        $this->view('users/edit', compact('title', 'user'));
+    }
+
+    /**
+     * update user
+     *
+     * @param array $request
+     * @param int $id
+     * @return void
+     */
+    public function update(array $request, int $id): void
+    {
+        $user = User::find($id);
+
+        if(! $user) {
+            Session::flash('error', 'Usuário não encontrado!');
+
+            $this->redirect('/users');
+        }
+
+        $validated = UserRequest::update($request);
+
+        $user->update($validated);
+
+        Session::flash('success', 'Usuário atualizado com sucesso!');
+
+        $this->redirect('/users');
     }
 }

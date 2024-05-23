@@ -22,9 +22,11 @@ test('can see user list', function () {
 });
 
 test('can see user create form', function () {
-    $client = new Client();
+    $client = new Client([
+        'base_uri' => BASE_URL
+    ]);
 
-    $response = $client->get(BASE_URL . '/user/create');
+    $response = $client->get('/user/create');
 
     expect($response->getStatusCode())
         ->toBe(200);
@@ -78,4 +80,38 @@ test('can see user edit form', function () {
         ->toBe(200);
     expect((string) $response->getBody())
         ->toContain($user['name']);
+});
+
+test('user has been updated', function () {
+    $client = new Client();
+
+    $user = User::create([
+        'first_name' => fake()->firstName(),
+        'last_name' => fake()->lastName(),
+        'document' => fake()->shuffleString('0123456789'),
+        'email' => fake()->email(),
+        'phone_number' => fake()->shuffleString('01234567899'),
+        'birth_date' => fake()->date('Y-m-d'),
+    ]);
+
+    $newUserData = [
+        'first_name' => fake()->firstName(),
+        'last_name' => fake()->lastName(),
+        'document' => fake()->shuffleString('0123456789'),
+        'email' => fake()->email(),
+        'phone_number' => fake()->shuffleString('01234567899'),
+        'birth_date' => fake()->date('Y-m-d'),
+    ];
+
+    $response = $client->post(BASE_URL . "/user/{$user->id}/update", [
+        'form_params' => $newUserData
+    ]);
+
+    expect($response->getStatusCode())
+        ->toBe(200);
+
+    expect((string) $response->getBody())
+        ->toContain($newUserData['first_name'])
+        ->toContain($newUserData['last_name'])
+        ->toContain($newUserData['email']);
 });

@@ -10,4 +10,5 @@ interface UserControllerInterface
     public function create(): void;
     public function store(array $data): void;
     public function edit(int $id): void;
+    public function update(array $data, int $id): void;
 }

@@ -15,7 +15,6 @@ class Database
 
         $capsule = new Capsule();
 
-
         $capsule->addConnection([
             'driver'    => 'mysql',
             'host'      => $_ENV['DB_HOST'],
