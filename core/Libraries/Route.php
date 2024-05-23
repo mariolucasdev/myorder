@@ -15,10 +15,14 @@ final class Route
     {
         $requestUri = $_SERVER['REQUEST_URI'];
 
+        $param = false;
         $params = explode('/', $requestUri);
 
-        if(count($params) >= 3 && is_int($params[2])) {
-            $route = '/user/' . $params[2];
+        array_shift($params);
+
+        if(strpos($route, '{id}') && isset($params[1])) {
+            $param = (int) $params[1];
+            $route = str_replace('{id}', $params[1], $route) . '/';
         }
 
         if ($requestUri === $route) {
@@ -55,6 +59,10 @@ final class Route
                 $controller = new $controller();
 
                 if(method_exists($controller, $method)) {
+                    if($param) {
+                        return $controller->{$method}($param);
+                    }
+
                     return $controller->{$method}();
 
                     exit;

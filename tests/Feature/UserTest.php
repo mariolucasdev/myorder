@@ -1,9 +1,12 @@
 <?php
 
 use App\Models\User;
+use Core\Services\Database;
 use GuzzleHttp\Client;
 
 use function Pest\Faker\fake;
+
+Database::init();
 
 const BASE_URL = 'http://localhost:8000';
 
@@ -55,4 +58,24 @@ test('should be created a new user', function () {
         ->toContain($user['first_name'])
         ->toContain($user['last_name'])
         ->toContain($user['email']);
+});
+
+test('can see user edit form', function () {
+    $client = new Client();
+
+    $user = User::create([
+        'first_name' => fake()->firstName(),
+        'last_name' => fake()->lastName(),
+        'document' => fake()->shuffleString('0123456789'),
+        'email' => fake()->email(),
+        'phone_number' => fake()->shuffleString('01234567899'),
+        'birth_date' => fake()->date('Y-m-d'),
+    ]);
+
+    $response = $client->get(BASE_URL . "/user/{$user->id}/edit");
+
+    expect($response->getStatusCode())
+        ->toBe(200);
+    expect((string) $response->getBody())
+        ->toContain($user['name']);
 });

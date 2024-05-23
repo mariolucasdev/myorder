@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\Controller;
 use App\Interfaces\User\UserControllerInterface;
 use App\Models\User;
+use App\Requests\User\UserRequest;
 use Core\Libraries\Session;
 
 class UserController extends Controller implements UserControllerInterface
@@ -29,10 +30,15 @@ class UserController extends Controller implements UserControllerInterface
 
         $this->view(
             'users/index',
-            compact('users', 'title')
+            compact('title', 'users')
         );
     }
 
+    /**
+     * create user form
+     *
+     * @return void
+     */
     public function create(): void
     {
         $title = 'Cadastrar Usuário';
@@ -40,21 +46,35 @@ class UserController extends Controller implements UserControllerInterface
         $this->view('users/create', compact('title'));
     }
 
-    public function store($request): void
+    /**
+     * store user
+     *
+     * @param array $request
+     * @return void
+     */
+    public function store(array $request): void
     {
-        $data = [
-            'first_name' => $request['first_name'],
-            'last_name' => $request['last_name'],
-            'document' => $request['document'],
-            'email' => $request['email'],
-            'phone_number' => $request['phone_number'],
-            'birth_date' => $request['birth_date'],
-        ];
+        $validated = UserRequest::store($request);
 
-        User::create($data);
+        User::create($validated);
 
         Session::flash('success', 'Usuário cadastrado com sucesso!');
 
         $this->redirect('/users');
+    }
+
+    public function edit(int $id): void
+    {
+        $title = "Editar Usuário";
+
+        $user = User::find($id);
+
+        if(!$user) {
+            Session::flash('error', 'Usuário não encontrado!');
+
+            $this->redirect('/users');
+        }
+
+        $this->view('users/create', compact('title', 'user'));
     }
 }
