@@ -2,6 +2,7 @@
 
 use App\Controllers\UserController;
 use App\Controllers\AuthController;
+use App\Controllers\OrderController;
 use Core\Libraries\Route;
 use Core\Libraries\View;
 
@@ -27,3 +28,5 @@ Route::post('/user/store', [UserController::class, 'store'], requireAuth: true);
 Route::get('/user/{id}/edit', [UserController::class, 'edit'], requireAuth: true);
 Route::put('/user/{id}/update', [UserController::class, 'update'], requireAuth: true);
 Route::delete('/user/{id}/delete', [UserController::class, 'delete'], requireAuth: true);
+
+Route::get('/orders', [OrderController::class, 'index'], requireAuth: true);
