@@ -8,7 +8,7 @@ Route::get('/', function () {
     return View::render('home');
 });
 
-Route::get('/users', [UserController::class]);
+Route::get('/users', [UserController::class, 'index']);
 
 // Route::get('/user/{id}', [UserController::class, 'show']);
 // Route::post('/users', [UserController::class, 'store']);
