@@ -4,7 +4,12 @@ namespace Core\Libraries;
 
 final class Session
 {
-    public function __construct()
+    /**
+     * start session
+     *
+     * @return void
+     */
+    public static function init(): void
     {
         session_start();
     }
@@ -16,7 +21,7 @@ final class Session
      * @param mixed $value
      * @return void
      */
-    public function set(string $key, mixed $value): void
+    public static function set(string $key, mixed $value): void
     {
         $_SESSION[$key] = $value;
     }
@@ -27,7 +32,7 @@ final class Session
      * @param string $key
      * @return mixed
      */
-    public function get(string $key): mixed
+    public static function get(string $key): mixed
     {
         return $_SESSION[$key];
     }
@@ -38,7 +43,7 @@ final class Session
      * @param string $key
      * @return boolean
      */
-    public function has(string $key): bool
+    public static function has(string $key): bool
     {
         return isset($_SESSION[$key]);
     }
@@ -53,10 +58,10 @@ final class Session
     public function flash(string $key, mixed $value = null): mixed
     {
         if ($value) {
-            $this->set($key, $value);
+            self::set($key, $value);
         } else {
-            $value = $this->get($key);
-            $this->remove($key);
+            $value = self::get($key);
+            self::remove($key);
 
             return $value;
         }
@@ -68,7 +73,7 @@ final class Session
      * @param string $key
      * @return void
      */
-    public function remove($key): void
+    public static function remove($key): void
     {
         unset($_SESSION[$key]);
     }
@@ -78,7 +83,7 @@ final class Session
      *
      * @return void
      */
-    public function destroy(): void
+    public static function destroy(): void
     {
         session_destroy();
     }

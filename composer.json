@@ -23,6 +23,6 @@
         }
     },
     "scripts": {
-        "test": "pest --colors=always"
+        "test": "docker compose exec app ./vendor/bin/pest"
     }
 }

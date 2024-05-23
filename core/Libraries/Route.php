@@ -17,8 +17,8 @@ final class Route
 
         $params = explode('/', $requestUri);
 
-        if(count($params) >= 3) {
-            $route = '/user/' . $params[2] ;
+        if(count($params) >= 3 && is_int($params[2])) {
+            $route = '/user/' . $params[2];
         }
 
         if ($requestUri === $route) {
@@ -57,12 +57,15 @@ final class Route
 
                 if(method_exists($controller, $method)) {
                     return $controller->{$method}();
+
+                    exit;
                 }
 
                 throw new \Exception("Method {$method} does not exist in controller {$controller}");
             }
 
             header("HTTP/1.0 404 Internal Server Error");
+
             exit;
         }
     }

@@ -1,9 +1,11 @@
 {% extends 'layouts/app.twig' %}
 
+{% block title %} {{ title }} {% endblock %}
+
 {% block content %}
 
     <div class="col-lg-8 mx-auto py-4 d-flex align-items-center justify-content-between">
-        <h3>Usuários Cadastrados</h3>
+        <h3>{{ title }}</h3>
 
         <a class="btn btn-primary" href="{{ BASE_URL }}/user/create">
             Criar novo usuário
@@ -17,12 +19,12 @@
             <div class="card mb-3 mx-auto col-lg-8">
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
-                        <h5 class="card-title">
-                            {{ user.first_name }} {{ user.last_name }}                      
+                        <h5 class="card-title mb-1">
+                        😀 {{ user.first_name }} {{ user.last_name }}                      
                         </h5>
 
-                        <p class="card-text">{{ user.email }}</p>
-                        <p class="card-text">{{ user.birth_date }}</p>
+                        <p class="card-text mb-0"> 📧 {{ user.email }}</p>
+                        <p class="card-text"> 📆 Data Nasc.: {{ user.birth_date|date("m/d/Y") }}</p>
                     </div>
 
                     <div>
@@ -33,5 +35,4 @@
             </div>
         {% endfor %}
     {% endif %}
-
 {% endblock %}

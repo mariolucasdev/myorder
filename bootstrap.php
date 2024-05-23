@@ -5,8 +5,13 @@ require_once "vendor/autoload.php";
 use Core\Libraries\Session;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use Dotenv\Dotenv;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 
-$session = new Session();
+Session::init();
+Session::set('auth', false);
+
+
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();

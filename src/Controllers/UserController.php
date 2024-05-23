@@ -31,4 +31,11 @@ class UserController extends Controller implements UserControllerInterface
             compact('users', 'title')
         );
     }
+
+    public function create(): void
+    {
+        $title = 'Cadastrar Usuário';
+
+        $this->view('users/create', compact('title'));
+    }
 }
