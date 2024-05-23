@@ -55,7 +55,7 @@ final class Session
      * @param mixed $value
      * @return mixed
      */
-    public function flash(string $key, mixed $value = null): mixed
+    public static function flash(string $key, mixed $value = null)
     {
         if ($value) {
             self::set($key, $value);

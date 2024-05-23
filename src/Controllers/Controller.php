@@ -28,4 +28,17 @@ class Controller
     {
         View::render($view, $data);
     }
+
+    /**
+     * redirect to url
+     *
+     * @param string $url
+     * @return void
+     */
+    public function redirect(string $url): void
+    {
+        header("Location: {$url}", true, 302);
+
+        exit;
+    }
 }

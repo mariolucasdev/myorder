@@ -10,6 +10,13 @@
         <a class="btn btn-primary" href="{{ BASE_URL }}/user/create">
             Criar novo usuário
         </a>
+
+        {% if success %}
+            <div class="alert alert-success" role="alert">
+                {{ success }}
+            </div>
+        {% endif %}
+
     </div>
 
     {% if users is empty %}
@@ -20,7 +27,7 @@
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <div>
                         <h5 class="card-title mb-1">
-                        😀 {{ user.first_name }} {{ user.last_name }}                      
+                        😀 #{{user.id}} {{ user.first_name }} {{ user.last_name }}                      
                         </h5>
 
                         <p class="card-text mb-0"> 📧 {{ user.email }}</p>

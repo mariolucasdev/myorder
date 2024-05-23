@@ -32,6 +32,10 @@ class View
         $twig->addGlobal('id', Session::has('id') ? Session::get('id') : null);
         $twig->addGlobal('name', Session::has('name') ? Session::get('name') : null);
 
+        /* session fash */
+        $twig->addGlobal('success', Session::has('success') ? Session::flash('success') : null);
+        $twig->addGlobal('error', Session::has('error') ? Session::flash('error') : null);
+
         /* render view */
         echo $twig->render("{$view}.twig", $data);
     }

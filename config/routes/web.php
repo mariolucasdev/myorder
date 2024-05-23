@@ -10,8 +10,8 @@ use Core\Libraries\View;
 
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/user/create', [UserController::class, 'create']);
+Route::post('/user/store', [UserController::class, 'store']);
 
 // Route::get('/user/{id}', [UserController::class, 'show']);
-// Route::post('/users', [UserController::class, 'store']);
 // Route::put('/user/{id}', [UserController::class, 'update']);
 // Route::delete('/user/{id}', [UserController::class, 'destroy']);
