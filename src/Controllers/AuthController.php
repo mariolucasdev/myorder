@@ -39,6 +39,23 @@ class AuthController extends Controller implements AuthControllerInterface
     }
 
     /**
+     * register user
+     *
+     * @return void
+     */
+    public function signup(array $request): void
+    {
+        $validated = UserRequest::store($request);
+
+        $user = User::create($validated);
+
+        Session::set('user', $user);
+        Session::set('auth', true);
+
+        $this->redirect('/users');
+    }
+
+    /**
      * logout user
      *
      * @return void

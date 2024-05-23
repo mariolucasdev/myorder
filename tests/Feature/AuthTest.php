@@ -56,3 +56,23 @@ test('should display register form', function () {
     expect((string) $response->getBody())
         ->toContain('Fazer Registro');
 });
+
+test('should register user', function () {
+    $client = new Client();
+
+    $response = $client->post(BASE_URL . '/auth/signup', [
+        'form_params' => [
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'document' => fake()->shuffleString('0123456789'),
+            'email' => fake()->email(),
+            'phone_number' => fake()->shuffleString('01234567899'),
+            'birth_date' => fake()->date('Y-m-d'),
+        ]
+    ]);
+
+    expect($response->getStatusCode())
+        ->toBe(200);
+    expect((string) $response->getBody())
+        ->toContain('Usuários Cadastrados');
+});

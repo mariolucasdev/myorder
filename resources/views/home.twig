@@ -1,2 +1,32 @@
 {% extends 'layouts/app.twig' %}
 
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+    <div class="col-lg-8 mx-auto text-center py-3 my-3">
+        <h3> Seja bem vindo(a)
+            {% if user %}
+                {{ user.first_name }}
+            {% endif %}
+        ! 🙌 </h3>
+
+        {% if user %}
+            <p class="my-4 py-4">Você está logado como <strong>{{ user.email }}</strong></p>
+
+            <div class="my-4">
+                <div class="d-grid">
+                    <a href="{{ BASE_URL }}/order/create/" class="btn btn-danger btn-lg mb-4">Fazer Pedido</a>
+                    
+                    <a href="{{ BASE_URL }}/user/{{ user.id }}/edit/" class="mt-4 btn btn-primary">Editar Perfil</a>
+                    <a href="{{ BASE_URL }}/auth/logout/" class="mt-4 btn btn-primary">Sair</a>
+                </div>
+            </div>
+
+        {% else %}
+            <a href="{{ BASE_URL }}/auth/login" class="mt-4 btn btn-primary">Login</a>
+            <a href="{{ BASE_URL }}/auth/register" class="mt-4 btn btn-primary ms-2">Cadastrar</a>
+        {% endif %}
+    </div>
+    
+{% endblock %}
