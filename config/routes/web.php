@@ -4,8 +4,20 @@ use App\Controllers\UserController;
 use Core\Libraries\Route;
 use Core\Libraries\View;
 
-Route::get('/', function () {
-    return View::render('home');
+// Route::get('/', function () {
+//     return View::render('home');
+// });
+
+Route::get('/auth/login', function () {
+    View::render('auth/login', [
+        'title' => 'Login'
+    ]);
+});
+
+Route::get('/auth/register', function () {
+    View::render('auth/register', [
+        'title' => 'Fazer Registro'
+    ]);
 });
 
 Route::get('/users', [UserController::class, 'index'], requireAuth: true);

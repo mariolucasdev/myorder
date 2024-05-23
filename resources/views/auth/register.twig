@@ -1,0 +1,55 @@
+{% extends 'layouts/app.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+
+    <div class="col-lg-8 mx-auto py-4 d-flex align-items-center justify-content-between">
+        <h3>{{ title }}</h3>
+
+        <a class="btn text-primary" href="{{ BASE_URL }}/auth/login">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-corner-down-left-double"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19 5v6a3 3 0 0 1 -3 3h-7" /><path d="M13 10l-4 4l4 4m-5 -8l-4 4l4 4" /></svg> 
+        </a>
+    </div>
+
+    <div class="col-lg-8 mx-auto">
+        <form action="{{ BASE_URL }}/user/store" method="POST">
+            <div class="form-group">
+                <label for="first_name">Nome</label>
+                <input placeholder="Seu nome" type="text" class="form-control" id="first_name" name="first_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="last_name">Sobrenome</label>
+                <input placeholder="Sobrenome" type="text" class="form-control" id="last_name" name="last_name" required>
+            </div>
+           
+            <div class="form-group">
+                <label for="document">Documento</label>
+                <input placeholder="CPF" type="text" class="form-control" id="document" name="document" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" placeholder="seu@email.com" class="form-control" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone_number">Telefone</label>
+                <input type="text" placeholder="(99) 9 9999-9999" class="form-control" id="phone_number" name="phone_number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="birth_date">Data de Nascimento</label>
+                <input type="date" class="form-control" id="birth_date" name="birth_date">
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Salvar</button>
+
+        </form>
+
+
+        <p class="text-center mt-3">Já tem uma conta? <a href="{{ BASE_URL }}/auth/login">Faça login</a></p>
+    </div>
+
+{% endblock %}
