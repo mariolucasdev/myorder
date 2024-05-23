@@ -30,3 +30,5 @@ Route::put('/user/{id}/update', [UserController::class, 'update'], requireAuth: 
 Route::delete('/user/{id}/delete', [UserController::class, 'delete'], requireAuth: true);
 
 Route::get('/orders', [OrderController::class, 'index'], requireAuth: true);
+Route::get('/order/create', [OrderController::class, 'create'], requireAuth: true);
+Route::post('/order/store', [OrderController::class, 'store'], requireAuth: true);

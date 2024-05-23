@@ -2,50 +2,11 @@
 
 namespace App\Requests\User;
 
-use DateTime;
+use App\Requests\Request;
 use Exception;
 
-class UserRequest
+class UserRequest extends Request
 {
-    /**
-     * sanitize input data
-     *
-     * @param string $data
-     * @return string
-     */
-    public static function sanitizeInput(string $data): string
-    {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data, ENT_QUOTES, 'UTF-8');
-
-        return $data;
-    }
-
-    /**
-     * validate email
-     *
-     * @param string $email
-     * @return boolean
-     */
-    public static function validateEmail($email)
-    {
-        return filter_var($email, FILTER_VALIDATE_EMAIL);
-    }
-
-    /**
-     * validate date
-     *
-     * @param string $date
-     * @param string $format
-     * @return boolean
-     */
-    public static function validateDate($date, $format = 'Y-m-d')
-    {
-        $d = DateTime::createFromFormat($format, $date);
-        return $d && $d->format($format) === $date;
-    }
-
     /**
      * validate fields to action store user
      *
