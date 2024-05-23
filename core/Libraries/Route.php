@@ -62,6 +62,7 @@ final class Route
                 throw new \Exception("Method {$method} does not exist in controller {$controller}");
             }
 
+            header("HTTP/1.0 404 Internal Server Error");
             exit;
         }
     }
