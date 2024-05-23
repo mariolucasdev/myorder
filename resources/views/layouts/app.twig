@@ -16,7 +16,9 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid container">
 
-            <a class="navbar-brand" href="{{ BASE_URL }}">🛒 myOrder</a>
+            {% if user %}
+                <a class="navbar-brand" href="{{ BASE_URL }}">🛒 myOrder</a>
+            {% endif %}
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -40,6 +42,14 @@
                                 aria-current="page"
                                 href="{{ BASE_URL  }}/orders"> 🛒 Pedidos</a>
                         </li>
+
+                        <li class="nav-item ms-3">
+                            <a  class="nav-link active font-bold"
+                                aria-current="page">
+                                Usuário: <strong> {{ user.first_name }}</strong>
+                            </a>
+                        </li>
+                       
                     {% else %}
                         <li class="nav-item">
                             <a  class="nav-link active"

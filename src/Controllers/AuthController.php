@@ -18,6 +18,11 @@ class AuthController extends Controller implements AuthControllerInterface
         parent::__construct();
     }
 
+    /**
+     * do login user
+     *
+     * @return void
+     */
     public function login(array $request): void
     {
         $user = User::where('email', $request['email'])->first();
@@ -33,5 +38,15 @@ class AuthController extends Controller implements AuthControllerInterface
         $this->redirect('/users');
     }
 
+    /**
+     * logout user
+     *
+     * @return void
+     */
+    public function logout(): void
+    {
+        Session::destroy();
 
+        $this->redirect('/auth/login');
+    }
 }

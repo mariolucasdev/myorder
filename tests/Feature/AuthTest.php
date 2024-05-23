@@ -35,6 +35,17 @@ test('should login user', function () {
         ->toContain('Usuários Cadastrados');
 });
 
+test('should logout user', function () {
+    $client = new Client();
+
+    $response = $client->get(BASE_URL . '/auth/logout');
+
+    expect($response->getStatusCode())
+        ->toBe(200);
+    expect((string) $response->getBody())
+        ->toContain('Login');
+});
+
 test('should display register form', function () {
     $client = new Client();
 

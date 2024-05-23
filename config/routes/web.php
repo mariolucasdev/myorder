@@ -14,6 +14,7 @@ Route::get('/auth/login', function () {
 });
 
 Route::post('/auth/authenticate', [AuthController::class, 'login']);
+Route::get('/auth/logout', [AuthController::class, 'logout']);
 
 Route::get('/auth/register', function () {
     return View::render('auth/register', [
