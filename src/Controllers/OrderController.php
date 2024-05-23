@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
+use App\Interfaces\Order\OrderControllerInterface;
 use App\Models\Order;
 use App\Requests\Order\OrderRequest;
 use Core\Libraries\Session;
 
-class OrderController extends Controller
+class OrderController extends Controller implements OrderControllerInterface
 {
     public function __construct()
     {
@@ -56,5 +57,26 @@ class OrderController extends Controller
         Session::flash('success', 'Pedido criado com sucesso!');
 
         $this->redirect('/orders');
+    }
+
+    /**
+     * display form to edit order
+     *
+     * @param int $id
+     * @return void
+     */
+    public function edit(int $id): void
+    {
+        $title = 'Editar Pedido';
+
+        $order = Order::find($id);
+
+        if(! $order) {
+            Session::flash('error', 'Pedido não encontrado!');
+
+            $this->redirect('/orders');
+        }
+
+        $this->view('orders/edit', compact('order', 'title'));
     }
 }

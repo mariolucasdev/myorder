@@ -1,0 +1,74 @@
+{% extends 'layouts/app.twig' %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+    <div class="col-lg-8 mx-auto py-4 d-flex align-items-center justify-content-between">
+        <h3>{{ title }}</h3>
+
+        <a class="btn text-primary" href="{{ BASE_URL }}/orders">
+            <svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-corner-down-left-double"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M19 5v6a3 3 0 0 1 -3 3h-7" /><path d="M13 10l-4 4l4 4m-5 -8l-4 4l4 4" /></svg> 
+        </a>
+    </div>
+
+    <div class="col-lg-8 mx-auto">
+        <form action="{{ BASE_URL }}/order/{{ order.id }}/update" method="POST">
+
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+
+            <div class="form-group">
+                <label for="first_name">Descrição</label>
+                <textarea placeholder="Descrição" class="form-control" id="description" name="description" required>{{ order.description }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="price">Preço</label>
+                <input placeholder="R$ 0,00" type="text" value="{{ order.price }}" class="form-control" id="price" name="price" required>
+            </div>
+           
+            <div class="form-group">
+                <label for="quantity">Quantidade</label>
+                <input placeholder="0" type="number" value="{{ order.quantity }}" class="form-control" id="quantity" name="quantity" required>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary mt-3 btn-lg">Salvar</button>
+
+                <a href="{{ BASE_URL }}/orders" class="btn btn-secondary mt-4">Voltar</a>
+            </div>
+        </form>
+
+        <h4>Valor Total: <span id="total">R$ 0,00</span></h4>
+    </div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            calculatePrice({ target: document.getElementById('quantity') });
+            maskMoneyPrice({ target: document.getElementById('price') });
+
+            document.getElementById('price').addEventListener('input', maskMoneyPrice);
+            document.getElementById('quantity').addEventListener('input', calculatePrice);
+        })
+
+        function maskMoneyPrice(e) {
+            let value = e.target.value;
+            e.target.value = value.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1,$2');
+        }
+
+        function calculatePrice(e) {
+            let price = document.getElementById('price').value;
+            let quantity = e.target.value;
+
+            price = parseFloat(price.replace(/\D/g, '').replace(/(\d)(\d{2})$/, '$1.$2'));
+            quantity = parseInt(quantity);
+
+            let total = price * quantity;
+
+            document.getElementById('total').innerText = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        }
+
+        document.getElementById('quantity').addEventListener('blur', function(e) {
+            let value = e.target.value;
+            e.target.value = value.replace(/\D/g, '');
+        });
+    </script>
+{% endblock %}

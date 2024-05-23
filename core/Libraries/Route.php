@@ -22,7 +22,7 @@ final class Route
 
         if(strpos($route, '{id}') && isset($params[1])) {
             $param = (int) $params[1];
-            $route = str_replace('{id}', $params[1], $route) . '/';
+            $route = str_replace('{id}', $params[1], $route);
         }
 
         if ($requestUri === $route) {
