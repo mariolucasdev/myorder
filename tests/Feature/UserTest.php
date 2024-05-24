@@ -2,15 +2,15 @@
 
 use App\Models\User;
 use GuzzleHttp\Client as Http;
+use GuzzleHttp\Cookie\CookieJar;
 
 use function Pest\Faker\fake;
 
 const BASE_URL = 'http://localhost:8000';
 
 test('should display list of users', function () {
-    $http = new Http([
-        'cookies' => true,
-    ]);
+    $http = new Http();
+    $cookieJar = new CookieJar();
 
     $user = User::create([
         'first_name'   => fake()->firstName(),
@@ -28,9 +28,12 @@ test('should display list of users', function () {
             'birth_date' => $user->birth_date,
             '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
+        'cookies' => $cookieJar,
     ]);
 
-    $response = $http->get(BASE_URL . '/users');
+    $response = $http->get(BASE_URL . '/users', [
+        'cookies' => $cookieJar,
+    ]);
 
     expect($response->getStatusCode())
         ->toBe(200)
@@ -42,6 +45,7 @@ test('should display list of users', function () {
 
 test('must display show user and your orders', function () {
     $http = new Http();
+    $cookieJar = new CookieJar();
 
     $user = User::create([
         'first_name'   => fake()->firstName(),
@@ -58,6 +62,7 @@ test('must display show user and your orders', function () {
             'birth_date' => $user->birth_date,
             '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
+        'cookies' => $cookieJar,
     ]);
 
     $http->post(BASE_URL . '/user/store', [
@@ -70,6 +75,7 @@ test('must display show user and your orders', function () {
             'birth_date'   => fake()->date('Y-m-d'),
             '_token'       => $_ENV['APP_TOKEN'] ?? '123',
         ],
+        'cookies' => $cookieJar,
     ]);
 
     $user = User::where('document', '98787998755')->first();
@@ -80,7 +86,9 @@ test('must display show user and your orders', function () {
         'quantity'    => fake()->numberBetween(1, 10),
     ]);
 
-    $response = $http->get(BASE_URL . "/user/{$user->id}/show");
+    $response = $http->get(BASE_URL . "/user/{$user->id}/show", [
+        'cookies' => $cookieJar,
+    ]);
 
     expect($response->getStatusCode())
         ->toBe(200)
@@ -98,8 +106,29 @@ test('must display show user and your orders', function () {
 
 test('must display form for user create', function () {
     $http = new Http();
+    $cookieJar = new CookieJar();
 
-    $response = $http->get(BASE_URL . '/user/create');
+    $user = User::create([
+        'first_name'   => fake()->firstName(),
+        'last_name'    => fake()->lastName(),
+        'document'     => fake()->shuffleString('0123456789'),
+        'email'        => fake()->email(),
+        'phone_number' => fake()->shuffleString('01234567899'),
+        'birth_date'   => fake()->date('Y-m-d'),
+    ]);
+
+    $http->post(BASE_URL . '/auth/authenticate', [
+        'form_params' => [
+            'email'      => $user->email,
+            'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
+        ],
+        'cookies' => $cookieJar,
+    ]);
+
+    $response = $http->get(BASE_URL . '/user/create', [
+        'cookies' => $cookieJar,
+    ]);
 
     expect($response->getStatusCode())
         ->toBe(200)
@@ -111,10 +140,31 @@ test('must display form for user create', function () {
         ->toContain('name="email"')
         ->toContain('name="phone_number"')
         ->toContain('name="birth_date"');
+
+    $user->delete();
 })->group('user');
 
 test('must create a new user', function () {
     $http = new Http();
+    $cookieJar = new CookieJar();
+
+    $user = User::create([
+        'first_name'   => fake()->firstName(),
+        'last_name'    => fake()->lastName(),
+        'document'     => '99999999999',
+        'email'        => fake()->email(),
+        'phone_number' => '99999999999',
+        'birth_date'   => fake()->date('Y-m-d'),
+    ]);
+
+    $http->post(BASE_URL . '/auth/authenticate', [
+        'form_params' => [
+            'email'      => $user->email,
+            'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
+        ],
+        'cookies' => $cookieJar,
+    ]);
 
     $user = [
         'first_name'   => fake()->firstName(),
@@ -128,6 +178,7 @@ test('must create a new user', function () {
 
     $response = $http->post(BASE_URL . '/user/store', [
         'form_params' => $user,
+        'cookies'     => $cookieJar,
     ]);
 
     expect((string) $response->getBody())
@@ -163,13 +214,14 @@ test('should display dorm for user editing', function () {
 
 test('user has been updated', function () {
     $http = new Http();
+    $cookieJar = new CookieJar();
 
     $user = User::create([
         'first_name'   => fake()->firstName(),
         'last_name'    => fake()->lastName(),
-        'document'     => fake()->shuffleString('0123456789'),
+        'document'     => '99999999999',
         'email'        => fake()->email(),
-        'phone_number' => fake()->shuffleString('01234567899'),
+        'phone_number' => '99999999999',
         'birth_date'   => fake()->date('Y-m-d'),
     ]);
 
@@ -183,14 +235,23 @@ test('user has been updated', function () {
         '_token'       => $_ENV['APP_TOKEN'] ?? '123',
     ];
 
+    $http->post(BASE_URL . '/auth/authenticate', [
+        'form_params' => [
+            'email'      => $user->email,
+            'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
+        ],
+        'cookies' => $cookieJar,
+    ]);
+
     $response = $http->post(BASE_URL . "/user/{$user->id}/update", [
         'form_params' => $newUserData,
+        'cookies'     => $cookieJar,
     ]);
 
     expect($response->getStatusCode())
-        ->toBe(200);
-
-    expect((string) $response->getBody())
+        ->toBe(200)
+        ->and((string) $response->getBody())
         ->toContain($newUserData['first_name'])
         ->toContain($newUserData['last_name'])
         ->toContain($newUserData['email']);
@@ -200,6 +261,7 @@ test('user has been updated', function () {
 
 test('must delete user', function () {
     $http = new Http();
+    $cookieJar = new CookieJar();
 
     $user = User::create([
         'first_name'   => fake()->firstName(),
@@ -211,7 +273,21 @@ test('must delete user', function () {
         '_token'       => $_ENV['APP_TOKEN'] ?? '123',
     ]);
 
-    $response = $http->delete(BASE_URL . "/user/{$user->id}/delete");
+    $http->post(BASE_URL . '/auth/authenticate', [
+        'form_params' => [
+            'email'      => $user->email,
+            'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
+        ],
+        'cookies' => $cookieJar,
+    ]);
+
+    $response = $http->delete(BASE_URL . "/user/{$user->id}/delete", [
+        'form_params' => [
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
+        ],
+        'cookies' => $cookieJar,
+    ]);
 
     $user = User::find($user->id);
 
@@ -219,4 +295,4 @@ test('must delete user', function () {
         ->toBe(200)
         ->and($user)
         ->toBeNull();
-});
+})->group('user');

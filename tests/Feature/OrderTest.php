@@ -3,6 +3,7 @@
 use App\Models\{Order, User};
 use Core\Services\Database;
 use GuzzleHttp\Client as Http;
+use GuzzleHttp\Cookie\CookieJar;
 
 use function Pest\Faker\fake;
 
@@ -26,16 +27,20 @@ test('should be list orders', function () {
     ]);
 
     $http = new Http();
+    $cookieJar = new CookieJar();
 
-    $http->post(BASE_URL . '/auth/authenticate', [
+    $response = $http->post(BASE_URL . '/auth/authenticate', [
         'form_params' => [
             'email'      => $user->email,
             'birth_date' => $user->birth_date,
             '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
+        'cookies' => $cookieJar,
     ]);
 
-    $response = $http->get(BASE_URL . '/orders');
+    $response = $http->get(BASE_URL . '/orders', [
+        'cookies' => $cookieJar,
+    ]);
 
     expect($response->getStatusCode())
         ->toBe(200)
@@ -57,6 +62,7 @@ test('can be showed form to create order', function () {
     ]);
 
     $http = new Http();
+    $cookieJar = new CookieJar();
 
     $http->post(BASE_URL . '/auth/authenticate', [
         'form_params' => [
@@ -64,9 +70,12 @@ test('can be showed form to create order', function () {
             'birth_date' => $user->birth_date,
             '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
+        'cookies' => $cookieJar,
     ]);
 
-    $response = $http->get(BASE_URL . '/order/create');
+    $response = $http->get(BASE_URL . '/order/create', [
+        'cookies' => $cookieJar,
+    ]);
 
     expect($response->getStatusCode())
         ->toBe(200)
@@ -88,6 +97,7 @@ test('can be store order', function () {
     ]);
 
     $http = new Http();
+    $cookieJar = new CookieJar();
 
     $http->post(BASE_URL . '/auth/authenticate', [
         'form_params' => [
@@ -95,6 +105,7 @@ test('can be store order', function () {
             'birth_date' => $user->birth_date,
             '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
+        'cookies' => $cookieJar,
     ]);
 
     $response = $http->post(BASE_URL . '/order/store', [
@@ -105,6 +116,7 @@ test('can be store order', function () {
             'price'       => 100.00,
             '_token'      => $_ENV['APP_TOKEN'] ?? '123',
         ],
+        'cookies' => $cookieJar,
     ]);
 
     expect($response->getStatusCode())
@@ -126,6 +138,7 @@ test('assert price order', function () {
     ]);
 
     $http = new Http();
+    $cookieJar = new CookieJar();
 
     $http->post(BASE_URL . '/auth/authenticate', [
         'form_params' => [
@@ -133,6 +146,7 @@ test('assert price order', function () {
             'birth_date' => $user->birth_date,
             '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
+        'cookies' => $cookieJar,
     ]);
 
     $http->post(BASE_URL . '/order/store', [
@@ -143,6 +157,7 @@ test('assert price order', function () {
             'price'       => 'R$ 100,00',
             '_token'      => $_ENV['APP_TOKEN'] ??  '123',
         ],
+        'cookies' => $cookieJar,
     ]);
 
     $order = Order::where('user_id', $user->id)->first();
@@ -173,6 +188,7 @@ test('should be showed edit form to update order', function () {
     ]);
 
     $http = new Http();
+    $cookieJar = new CookieJar();
 
     $http->post(BASE_URL . '/auth/authenticate', [
         'form_params' => [
@@ -180,9 +196,12 @@ test('should be showed edit form to update order', function () {
             'birth_date' => $user->birth_date,
             '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
+        'cookies' => $cookieJar,
     ]);
 
-    $response = $http->get(BASE_URL . "/order/{$order->id}/edit");
+    $response = $http->get(BASE_URL . "/order/{$order->id}/edit", [
+        'cookies' => $cookieJar,
+    ]);
 
     expect($response->getStatusCode())
         ->toBe(200)
@@ -212,6 +231,7 @@ test('should be update order', function () {
     ]);
 
     $http = new Http();
+    $cookieJar = new CookieJar();
 
     $http->post(BASE_URL . '/auth/authenticate', [
         'form_params' => [
@@ -219,6 +239,7 @@ test('should be update order', function () {
             'birth_date' => $user->birth_date,
             '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
+        'cookies' => $cookieJar,
     ]);
 
     $orderData = [
@@ -231,6 +252,7 @@ test('should be update order', function () {
 
     $response = $http->post(BASE_URL . "/order/{$order->id}/update", [
         'form_params' => $orderData,
+        'cookies'     => $cookieJar,
     ]);
 
     $order = Order::find($order->id);
@@ -268,6 +290,7 @@ test('order should be deleted', function () {
     ]);
 
     $http = new Http();
+    $cookieJar = new CookieJar();
 
     $http->post(BASE_URL . '/auth/authenticate', [
         'form_params' => [
@@ -275,12 +298,14 @@ test('order should be deleted', function () {
             'birth_date' => $user->birth_date,
             '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
+        'cookies' => $cookieJar,
     ]);
 
     $response = $http->post(BASE_URL . "/order/{$order->id}/delete", [
         'form_params' => [
             '_token' => $_ENV['APP_TOKEN'] ?? '123',
         ],
+        'cookies' => $cookieJar,
     ]);
 
     expect($response->getStatusCode())

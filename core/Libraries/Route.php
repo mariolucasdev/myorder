@@ -51,6 +51,8 @@ final class Route
                     throw new \Exception("Controller {$controller} class does not exist");
                 }
 
+                Session::flash('requireAuth', $requireAuth);
+
                 $controller = new $controller();
 
                 if (method_exists($controller, $method)) {
@@ -58,7 +60,6 @@ final class Route
                         return $controller->{$method}($param);
                     }
 
-                    Session::flash('requireAuth', $requireAuth);
 
                     return $controller->{$method}();
 
@@ -113,6 +114,8 @@ final class Route
                 if (!class_exists($controller)) {
                     throw new \Exception("Controller {$controller} class does not exist");
                 }
+
+                Session::flash('requireAuth', $requireAuth);
 
                 $controller = new $controller();
 
@@ -182,6 +185,8 @@ final class Route
                     throw new \Exception("Controller {$controller} class does not exist");
                 }
 
+                Session::flash('requireAuth', $requireAuth);
+
                 $controller = new $controller();
 
                 if (method_exists($controller, $method)) {
@@ -246,6 +251,8 @@ final class Route
                 if (!class_exists($controller)) {
                     throw new \Exception("Controller {$controller} class does not exist");
                 }
+
+                Session::flash('requireAuth', $requireAuth);
 
                 $controller = new $controller();
 
