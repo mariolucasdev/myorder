@@ -14,7 +14,7 @@ class Order extends Model
     /**
      * relationship with user
      *
-     * @return void
+     * @return BelongsTo
      */
     public function user(): BelongsTo
     {
@@ -24,10 +24,11 @@ class Order extends Model
     /**
      * get total attribute
      *
-     * @return void
+     * @return float
      */
     public function getTotalAttribute(): float
     {
+        /* @phpstan-ignore-next-line */
         return $this->quantity * $this->price;
     }
 }

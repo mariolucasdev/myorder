@@ -44,7 +44,7 @@ class Request
     /**
      * validate currency
      */
-    public static function validateCurrency(string $currency): string
+    public static function validateCurrency(string $currency): int|false
     {
         return preg_match('/^[0-9]+(?:\.[0-9]{1,2})?$/', $currency);
     }

@@ -38,6 +38,7 @@ class UserController extends Controller implements UserControllerInterface
     {
         $title = 'Detalhes do Usuário';
 
+        /* @phpstan-ignore-next-line */
         $user   = User::find($id);
         $orders = $user->orders;
 
@@ -62,11 +63,14 @@ class UserController extends Controller implements UserControllerInterface
 
     /**
      * store user
+     *
+     * @param array<string> $request
      */
     public function store(array $request): void
     {
         $validated = UserRequest::store($request);
 
+        /* @phpstan-ignore-next-line */
         User::create($validated);
 
         Session::flash('success', 'Usuário cadastrado com sucesso!');
@@ -81,6 +85,7 @@ class UserController extends Controller implements UserControllerInterface
     {
         $title = 'Editar Usuário';
 
+        /* @phpstan-ignore-next-line */
         $user = User::find($id);
 
         if (!$user) {
@@ -94,9 +99,13 @@ class UserController extends Controller implements UserControllerInterface
 
     /**
      * update user
+     *
+     * @param array<string> $request
+     * @param int $id
      */
     public function update(array $request, int $id): void
     {
+        /* @phpstan-ignore-next-line */
         $user = User::find($id);
 
         if (!$user) {
@@ -119,6 +128,7 @@ class UserController extends Controller implements UserControllerInterface
      */
     public function delete(int $id): void
     {
+        /* @phpstan-ignore-next-line */
         $user = User::find($id);
 
         if (!$user) {

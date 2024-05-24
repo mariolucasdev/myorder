@@ -19,6 +19,7 @@ class View
         $twig = new Environment($loader);
 
         /* ready base url */
+        /* @phpstan-ignore-next-line */
         $twig->addGlobal('BASE_URL', BASE_URL);
 
         /* session auth data */

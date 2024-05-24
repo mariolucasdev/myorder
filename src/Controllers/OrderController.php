@@ -23,6 +23,7 @@ class OrderController extends Controller implements OrderControllerInterface
     public function index(): void
     {
         $title  = 'Listagem de Pedidos';
+
         $orders = Order::all();
 
         $this->view('orders/index', compact('orders', 'title'));
@@ -42,11 +43,14 @@ class OrderController extends Controller implements OrderControllerInterface
 
     /**
      * store order
+     *
+     * @param array<string> $request
      */
     public function store(array $request): void
     {
         $validated = OrderRequest::store($request);
 
+        /* @phpstan-ignore-next-line */
         Order::create($validated);
 
         Session::flash('success', 'Pedido criado com sucesso!');
@@ -61,6 +65,7 @@ class OrderController extends Controller implements OrderControllerInterface
     {
         $title = 'Editar Pedido';
 
+        /* @phpstan-ignore-next-line */
         $order = Order::find($id);
 
         if (!$order) {
@@ -74,11 +79,14 @@ class OrderController extends Controller implements OrderControllerInterface
 
     /**
      * update order
+     *
+     * @param array<string> $request
      */
     public function update(array $request, int $id): void
     {
         $validated = OrderRequest::update($request);
 
+        /* @phpstan-ignore-next-line */
         $order = Order::find($id);
 
         if (!$order) {
@@ -99,6 +107,7 @@ class OrderController extends Controller implements OrderControllerInterface
      */
     public function delete(int $id): void
     {
+        /* @phpstan-ignore-next-line */
         $order = Order::find($id);
 
         if (!$order) {

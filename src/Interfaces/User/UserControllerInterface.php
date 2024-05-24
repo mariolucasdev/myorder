@@ -12,9 +12,18 @@ interface UserControllerInterface
 
     public function create(): void;
 
-    public function store(array $data): void;
+    /**
+     * @param array<string> $request
+     * @return void
+     */
+    public function store(array $request): void;
 
     public function edit(int $id): void;
 
-    public function update(array $data, int $id): void;
+    /**
+     * @param array<string> $request
+     * @param int $id
+     * @return void
+     */
+    public function update(array $request, int $id): void;
 }

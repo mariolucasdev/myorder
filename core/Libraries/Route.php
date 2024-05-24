@@ -7,7 +7,8 @@ final class Route
     /**
      * get application route
      *
-     * @return void
+     * @param string $route
+     * @param callable|array<string> $callback
      */
     public static function get(string $route, callable|array $callback, $requireAuth = true)
     {
@@ -39,11 +40,7 @@ final class Route
             }
 
             if (is_array($callback)) {
-                if (isset($callback[0])) {
-                    $controller = $callback[0];
-                } else {
-                    $controller = CONTROLLER_DEFAULT;
-                }
+                $controller = $callback[0];
 
                 if (isset($callback[1])) {
                     $method = $callback[1];
@@ -77,7 +74,8 @@ final class Route
     /**
      * post application route
      *
-     * @return void
+     * @param string $route
+     * @param callable|array<string> $callback
      */
     public static function post(string $route, callable|array $callback, $requireAuth = true)
     {
@@ -122,7 +120,8 @@ final class Route
     /**
      * put application route
      *
-     * @return void
+     * @param string $route
+     * @param callable|array<string> $callback
      */
     public static function put(string $route, callable|array $callback, $requireAuth = true)
     {
@@ -180,7 +179,8 @@ final class Route
     /**
      * delete application route
      *
-     * @return void
+     * @param string $route
+     * @param callable|array<string> $callback
      */
     public static function delete(string $route, callable|array $callback, $requireAuth = true)
     {

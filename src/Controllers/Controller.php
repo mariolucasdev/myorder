@@ -2,13 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Traits\ApiResponseJson;
 use Core\Libraries\View;
 
 class Controller
 {
-    use ApiResponseJson;
-
     /**
      * Controller constructor
      */
@@ -19,6 +16,9 @@ class Controller
 
     /**
      * render view file
+     *
+     * @param string $view
+     * @param array<string> $data
      */
     public function view(string $view, array $data = []): void
     {

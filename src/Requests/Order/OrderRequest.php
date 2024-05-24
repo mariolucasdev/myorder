@@ -9,6 +9,9 @@ class OrderRequest extends Request
 {
     /**
      * validate fields to action store order
+     *
+     * @param array<string> $request
+     * @return array<string>
      */
     public static function store(array $request): array
     {
@@ -45,6 +48,9 @@ class OrderRequest extends Request
 
     /**
      * validate fields to action update order
+     *
+     * @param array<string> $request
+     * @return array<string>
      */
     public static function update(array $request): array
     {

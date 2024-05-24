@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use Illuminate\Database\Eloquent\Model;
 use App\Interfaces\Auth\AuthControllerInterface;
 use App\Models\User;
 use App\Requests\User\UserRequest;
@@ -19,9 +20,13 @@ class AuthController extends Controller implements AuthControllerInterface
 
     /**
      * do login user
+     *
+     * @param array<string> $request
+     * @method static Model where(string $string, string $email)
      */
     public function login(array $request): void
     {
+        /* @phpstan-ignore-next-line */
         $user = User::where('email', $request['email'])->first();
 
         if (!$user || $request['birth_date'] != $user->birth_date) {
@@ -37,11 +42,14 @@ class AuthController extends Controller implements AuthControllerInterface
 
     /**
      * register user
+     *
+     * @param array<string> $request
      */
     public function signup(array $request): void
     {
         $validated = UserRequest::store($request);
 
+        /* @phpstan-ignore-next-line */
         $user = User::create($validated);
 
         Session::set('user', $user);
