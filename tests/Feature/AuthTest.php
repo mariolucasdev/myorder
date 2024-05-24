@@ -2,16 +2,16 @@
 
 use App\Models\User;
 use Core\Services\Database;
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as Http;
 
 use function Pest\Faker\fake;
 
 Database::init();
 
 test('should display login form', function () {
-    $client = new Client();
+    $http = new Http();
 
-    $response = $client->get(BASE_URL . '/auth/login');
+    $response = $http->get(BASE_URL . '/auth/login');
 
     expect($response->getStatusCode())
         ->toBe(200);
@@ -20,7 +20,7 @@ test('should display login form', function () {
 });
 
 test('should login user', function () {
-    $client = new Client();
+    $http = new Http();
 
     $user = User::create([
         'first_name' => fake()->firstName(),
@@ -31,7 +31,7 @@ test('should login user', function () {
         'birth_date' => fake()->date('Y-m-d'),
     ]);
 
-    $response = $client->post(BASE_URL . '/auth/authenticate', [
+    $response = $http->post(BASE_URL . '/auth/authenticate', [
         'form_params' => [
             'email' => $user->email,
             'birth_date' => $user->birth_date
@@ -46,9 +46,9 @@ test('should login user', function () {
 });
 
 test('should logout user', function () {
-    $client = new Client();
+    $http = new Http();
 
-    $response = $client->get(BASE_URL . '/auth/logout');
+    $response = $http->get(BASE_URL . '/auth/logout');
 
     expect($response->getStatusCode())
         ->toBe(200);
@@ -57,9 +57,9 @@ test('should logout user', function () {
 });
 
 test('should display register form', function () {
-    $client = new Client();
+    $http = new Http();
 
-    $response = $client->get(BASE_URL . '/auth/register');
+    $response = $http->get(BASE_URL . '/auth/register');
 
     expect($response->getStatusCode())
         ->toBe(200);
@@ -68,9 +68,9 @@ test('should display register form', function () {
 });
 
 test('should register user', function () {
-    $client = new Client();
+    $http = new Http();
 
-    $response = $client->post(BASE_URL . '/auth/signup', [
+    $response = $http->post(BASE_URL . '/auth/signup', [
         'form_params' => [
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),

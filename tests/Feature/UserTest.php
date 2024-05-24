@@ -2,7 +2,7 @@
 
 use App\Models\User;
 use Core\Services\Database;
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as Http;
 
 use function Pest\Faker\fake;
 
@@ -11,22 +11,74 @@ Database::init();
 const BASE_URL = 'http://localhost:8000';
 
 test('should display list of users', function () {
-    $client = new Client();
+    $http = new Http();
 
-    $response = $client->get(BASE_URL . '/users');
+    $response = $http->get(BASE_URL . '/users');
 
     expect($response->getStatusCode())
-        ->toBe(200);
-    expect((string) $response->getBody())
+        ->toBe(200)
+        ->and((string) $response->getBody())
         ->toContain('Usuários Cadastrados');
-});
+})->group('user');
 
-test('must display form for user editing', function () {
-    $client = new Client([
-        'base_uri' => BASE_URL
+test('must display show user and your orders', function () {
+    $http = new Http();
+
+    $user = User::create([
+        'first_name' => fake()->firstName(),
+        'last_name' => fake()->lastName(),
+        'document' => '99999999999',
+        'email' => fake()->email(),
+        'phone_number' => '99999999999',
+        'birth_date' => fake()->date('Y-m-d'),
     ]);
 
-    $response = $client->get('/user/create');
+    $request = $http->post(BASE_URL . "/auth/authenticate", [
+        'form_params' => [
+            'email' => $user->email,
+            'birth_date' => $user->birth_date
+        ]
+    ]);
+
+    $http->post(BASE_URL . '/user/store', [
+        'form_params' => [
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'document' => '987.879.987-55',
+            'email' => fake()->email(),
+            'phone_number' => fake()->phoneNumber(),
+            'birth_date' => fake()->date('Y-m-d'),
+        ]
+    ]);
+
+    $user = User::where('document', '98787998755')->first();
+
+    $order = $user->orders()->create([
+        'description' => fake()->sentence(),
+        'price' => fake()->randomFloat(2, 10, 100),
+        'quantity' => fake()->numberBetween(1, 10),
+    ]);
+
+    $response = $http->get(BASE_URL . "/user/{$user->id}/show");
+
+    expect($response->getStatusCode())
+        ->toBe(200)
+        ->and((string) $response->getBody())
+        ->toContain('Detalhes do Usuário')
+        ->toContain($user->first_name)
+        ->toContain($user->last_name)
+        ->toContain($user->email)
+        ->toContain($order->description)
+        ->toContain($order->quantity);
+
+    $user->delete();
+    $user->orders()->delete();
+})->group('user');
+
+test('must display form for user editing', function () {
+    $http = new Http();
+
+    $response = $http->get(BASE_URL . '/user/create');
 
     expect($response->getStatusCode())
         ->toBe(200);
@@ -38,10 +90,10 @@ test('must display form for user editing', function () {
         ->toContain('name="email"')
         ->toContain('name="phone_number"')
         ->toContain('name="birth_date"');
-});
+})->group('user');
 
 test('must create a new user', function () {
-    $client = new Client();
+    $http = new Http();
 
     $user = [
         'first_name' => fake()->firstName(),
@@ -52,7 +104,7 @@ test('must create a new user', function () {
         'birth_date' => fake()->date('Y-m-d'),
     ];
 
-    $response = $client->post(BASE_URL . '/user/store', [
+    $response = $http->post(BASE_URL . '/user/store', [
         'form_params' => $user
     ]);
 
@@ -60,10 +112,10 @@ test('must create a new user', function () {
         ->toContain($user['first_name'])
         ->toContain($user['last_name'])
         ->toContain($user['email']);
-});
+})->group('user');
 
 test('should display dorm for user editing', function () {
-    $client = new Client();
+    $http = new Http();
 
     $user = User::create([
         'first_name' => fake()->firstName(),
@@ -74,16 +126,16 @@ test('should display dorm for user editing', function () {
         'birth_date' => fake()->date('Y-m-d'),
     ]);
 
-    $response = $client->get(BASE_URL . "/user/{$user->id}/edit");
+    $response = $http->get(BASE_URL . "/user/{$user->id}/edit");
 
     expect($response->getStatusCode())
         ->toBe(200);
     expect((string) $response->getBody())
         ->toContain($user['name']);
-});
+})->group('user');
 
 test('user has been updated', function () {
-    $client = new Client();
+    $http = new Http();
 
     $user = User::create([
         'first_name' => fake()->firstName(),
@@ -103,7 +155,7 @@ test('user has been updated', function () {
         'birth_date' => fake()->date('Y-m-d'),
     ];
 
-    $response = $client->post(BASE_URL . "/user/{$user->id}/update", [
+    $response = $http->post(BASE_URL . "/user/{$user->id}/update", [
         'form_params' => $newUserData
     ]);
 
@@ -114,10 +166,10 @@ test('user has been updated', function () {
         ->toContain($newUserData['first_name'])
         ->toContain($newUserData['last_name'])
         ->toContain($newUserData['email']);
-});
+})->group('user');
 
 test('must delete user', function () {
-    $client = new Client();
+    $http = new Http();
 
     $user = User::create([
         'first_name' => fake()->firstName(),
@@ -128,7 +180,7 @@ test('must delete user', function () {
         'birth_date' => fake()->date('Y-m-d'),
     ]);
 
-    $response = $client->delete(BASE_URL . "/user/{$user->id}/delete");
+    $response = $http->delete(BASE_URL . "/user/{$user->id}/delete");
 
     expect($response->getStatusCode())
         ->toBe(200);

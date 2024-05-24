@@ -38,7 +38,6 @@ class OrderController extends Controller implements OrderControllerInterface
 
         $user = Session::get('user');
 
-
         $this->view('orders/create', compact('title'));
     }
 

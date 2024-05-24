@@ -17,10 +17,11 @@ class UserRequest extends Request
     {
         $firstName = self::sanitizeInput($request['first_name'] ?? '');
         $lastName = self::sanitizeInput($request['last_name'] ?? '');
-        $document = self::sanitizeInput($request['document'] ?? '');
         $email = self::sanitizeInput($request['email'] ?? '');
-        $phoneNumber = self::sanitizeInput($request['phone_number'] ?? '');
         $birthDate = self::sanitizeInput($request['birth_date'] ?? '');
+
+        $document = preg_replace('/[^0-9]/', '', $request['document']);
+        $phoneNumber = preg_replace('/[^0-9]/', '', $request['phone_number']);
 
         if(! $firstName) {
             throw new Exception("First name is required");

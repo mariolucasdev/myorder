@@ -35,6 +35,27 @@ class UserController extends Controller implements UserControllerInterface
     }
 
     /**
+     * show user
+     *
+     * @return void
+     */
+    public function show(int $id): void
+    {
+        $title = 'Detalhes do Usuário';
+
+        $user = User::find($id);
+        $orders = $user->orders;
+
+        if(!$user) {
+            Session::flash('error', 'Usuário não encontrado!');
+
+            $this->redirect('/users');
+        }
+
+        $this->view('users/show', compact('title', 'user', 'orders'));
+    }
+
+    /**
      * create user form
      *
      * @return void

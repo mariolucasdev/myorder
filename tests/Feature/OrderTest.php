@@ -3,7 +3,7 @@
 use App\Models\Order;
 use App\Models\User;
 use Core\Services\Database;
-use GuzzleHttp\Client;
+use GuzzleHttp\Client as Http;
 
 use function Pest\Faker\fake;
 
@@ -28,16 +28,16 @@ test('should be list orders', function () {
         'price' => 100.00,
     ]);
 
-    $client = new Client();
+    $http = new Http();
 
-    $client->post(BASE_URL . '/auth/authenticate', [
+    $http->post(BASE_URL . '/auth/authenticate', [
             'form_params' => [
                 'email' => $user->email,
                 'birth_date' => $user->birth_date
             ]
         ]);
 
-    $response = $client->get(BASE_URL . '/orders');
+    $response = $http->get(BASE_URL . '/orders');
 
     expect($response->getStatusCode())
         ->toBe(200);
@@ -58,16 +58,16 @@ test('can be showed form to create order', function () {
         'birth_date' => fake()->date(),
     ]);
 
-    $client = new Client();
+    $http = new Http();
 
-    $client->post(BASE_URL . '/auth/authenticate', [
+    $http->post(BASE_URL . '/auth/authenticate', [
             'form_params' => [
                 'email' => $user->email,
                 'birth_date' => $user->birth_date
             ]
         ]);
 
-    $response = $client->get(BASE_URL . '/order/create');
+    $response = $http->get(BASE_URL . '/order/create');
 
     expect($response->getStatusCode())
         ->toBe(200);
@@ -88,16 +88,16 @@ test('can be store order', function () {
         'birth_date' => fake()->date(),
     ]);
 
-    $client = new Client();
+    $http = new Http();
 
-    $client->post(BASE_URL . '/auth/authenticate', [
+    $http->post(BASE_URL . '/auth/authenticate', [
             'form_params' => [
                 'email' => $user->email,
                 'birth_date' => $user->birth_date
             ]
         ]);
 
-    $response = $client->post(BASE_URL . '/order/store', [
+    $response = $http->post(BASE_URL . '/order/store', [
         'form_params' => [
             'user_id' => $user->id,
             'description' => 'Order test',
@@ -125,16 +125,16 @@ test('assert price order', function () {
         'birth_date' => fake()->date(),
     ]);
 
-    $client = new Client();
+    $http = new Http();
 
-    $client->post(BASE_URL . '/auth/authenticate', [
+    $http->post(BASE_URL . '/auth/authenticate', [
         'form_params' => [
             'email' => $user->email,
             'birth_date' => $user->birth_date
         ]
     ]);
 
-    $client->post(BASE_URL . '/order/store', [
+    $http->post(BASE_URL . '/order/store', [
         'form_params' => [
             'user_id' => $user->id,
             'description' => 'Order test',
@@ -171,16 +171,16 @@ test('should be showed edit form to update order', function () {
         'price' => 100.00,
     ]);
 
-    $client = new Client();
+    $http = new Http();
 
-    $client->post(BASE_URL . '/auth/authenticate', [
+    $http->post(BASE_URL . '/auth/authenticate', [
         'form_params' => [
             'email' => $user->email,
             'birth_date' => $user->birth_date
         ]
     ]);
 
-    $response = $client->get(BASE_URL . "/order/{$order->id}/edit");
+    $response = $http->get(BASE_URL . "/order/{$order->id}/edit");
 
     expect($response->getStatusCode())
         ->toBe(200);
@@ -210,9 +210,9 @@ test('should be update order', function () {
         'price' => 100.00,
     ]);
 
-    $client = new Client();
+    $http = new Http();
 
-    $client->post(BASE_URL . '/auth/authenticate', [
+    $http->post(BASE_URL . '/auth/authenticate', [
         'form_params' => [
             'email' => $user->email,
             'birth_date' => $user->birth_date
@@ -226,7 +226,7 @@ test('should be update order', function () {
         'price' => '150.00',
     ];
 
-    $response = $client->post(BASE_URL . "/order/{$order->id}/update", [
+    $response = $http->post(BASE_URL . "/order/{$order->id}/update", [
         'form_params' => $orderData
     ]);
 
@@ -268,16 +268,16 @@ test('order should be deleted', function () {
         'price' => 100.00,
     ]);
 
-    $client = new Client();
+    $http = new Http();
 
-    $client->post(BASE_URL . '/auth/authenticate', [
+    $http->post(BASE_URL . '/auth/authenticate', [
         'form_params' => [
             'email' => $user->email,
             'birth_date' => $user->birth_date
         ]
     ]);
 
-    $response = $client->post(BASE_URL . "/order/{$order->id}/delete");
+    $response = $http->post(BASE_URL . "/order/{$order->id}/delete");
 
     expect($response->getStatusCode())
         ->toBe(200);
