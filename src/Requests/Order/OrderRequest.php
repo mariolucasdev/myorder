@@ -45,4 +45,37 @@ class OrderRequest extends Request
             'price' => $price
         ];
     }
+
+    /**
+     * validate fields to action update order
+     *
+     * @param array $request
+     * @return array
+     */
+    public static function update(array $request): array
+    {
+        $description = self::sanitizeInput($request['description'] ?? '');
+        $quantity = self::sanitizeInput($request['quantity'] ?? '');
+
+        $price = str_replace(['R$', ' ', ','], ['', '', '.'], $request['price']);
+        $price = floatval($price);
+
+        if(! $description) {
+            throw new Exception("Description is required");
+        }
+
+        if(! $quantity) {
+            throw new Exception("Quantity is required");
+        }
+
+        if(! $price) {
+            throw new Exception("Price is required");
+        }
+
+        return [
+            'description' => $description,
+            'quantity' => $quantity,
+            'price' => $price
+        ];
+    }
 }

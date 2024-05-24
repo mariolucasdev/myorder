@@ -33,3 +33,4 @@ Route::get('/orders', [OrderController::class, 'index'], requireAuth: true);
 Route::get('/order/create', [OrderController::class, 'create'], requireAuth: true);
 Route::post('/order/store', [OrderController::class, 'store'], requireAuth: true);
 Route::get('/order/{id}/edit', [OrderController::class, 'edit'], requireAuth: true);
+Route::put('/order/{id}/update', [OrderController::class, 'update'], requireAuth: true);

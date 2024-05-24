@@ -79,4 +79,30 @@ class OrderController extends Controller implements OrderControllerInterface
 
         $this->view('orders/edit', compact('order', 'title'));
     }
+
+    /**
+     * update order
+     *
+     * @param int $id
+     * @param array $request
+     * @return void
+     */
+    public function update(array $request, int $id): void
+    {
+        $validated = OrderRequest::update($request);
+
+        $order = Order::find($id);
+
+        if(! $order) {
+            Session::flash('error', 'Pedido não encontrado!');
+
+            $this->redirect('/orders');
+        }
+
+        $order->update($validated);
+
+        Session::flash('success', 'Pedido atualizado com sucesso!');
+
+        $this->redirect('/orders');
+    }
 }

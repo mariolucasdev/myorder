@@ -8,4 +8,5 @@ interface OrderControllerInterface
     public function create(): void;
     public function store(array $request): void;
     public function edit(int $id): void;
+    public function update(array $request, int $id): void;
 }
