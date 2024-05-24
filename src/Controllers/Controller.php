@@ -2,8 +2,7 @@
 
 namespace App\Controllers;
 
-use Core\Libraries\Session;
-use Core\Libraries\View;
+use Core\Libraries\{Session, View};
 
 class Controller
 {

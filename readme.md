@@ -34,18 +34,18 @@ This is a simple application for managing orders.
 
 ## Testes Unidade (Pest) 🧪
 
-    ```bash
+    ```
     composer test
     ```
 
 ## Teste Análise Estática (PHPStan)
 
-    ```bash
+    ```
     composer phpstan
     ```
 
 ## Teste de Design de Código (Pint)
 
-    ```bash
+    ```
     composer pint
     ```

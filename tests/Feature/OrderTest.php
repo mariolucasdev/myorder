@@ -26,7 +26,7 @@ test('should be list orders', function () {
         'price'       => 100.00,
     ]);
 
-    $http = new Http();
+    $http      = new Http();
     $cookieJar = new CookieJar();
 
     $response = $http->post(BASE_URL . '/auth/authenticate', [
@@ -61,7 +61,7 @@ test('can be showed form to create order', function () {
         'birth_date'   => fake()->date(),
     ]);
 
-    $http = new Http();
+    $http      = new Http();
     $cookieJar = new CookieJar();
 
     $http->post(BASE_URL . '/auth/authenticate', [
@@ -96,7 +96,7 @@ test('can be store order', function () {
         'birth_date'   => fake()->date(),
     ]);
 
-    $http = new Http();
+    $http      = new Http();
     $cookieJar = new CookieJar();
 
     $http->post(BASE_URL . '/auth/authenticate', [
@@ -137,7 +137,7 @@ test('assert price order', function () {
         'birth_date'   => fake()->date(),
     ]);
 
-    $http = new Http();
+    $http      = new Http();
     $cookieJar = new CookieJar();
 
     $http->post(BASE_URL . '/auth/authenticate', [
@@ -155,7 +155,7 @@ test('assert price order', function () {
             'description' => 'Order test',
             'quantity'    => 2,
             'price'       => 'R$ 100,00',
-            '_token'      => $_ENV['APP_TOKEN'] ??  '123',
+            '_token'      => $_ENV['APP_TOKEN'] ?? '123',
         ],
         'cookies' => $cookieJar,
     ]);
@@ -187,7 +187,7 @@ test('should be showed edit form to update order', function () {
         'price'       => 100.00,
     ]);
 
-    $http = new Http();
+    $http      = new Http();
     $cookieJar = new CookieJar();
 
     $http->post(BASE_URL . '/auth/authenticate', [
@@ -230,7 +230,7 @@ test('should be update order', function () {
         'price'       => 100.00,
     ]);
 
-    $http = new Http();
+    $http      = new Http();
     $cookieJar = new CookieJar();
 
     $http->post(BASE_URL . '/auth/authenticate', [
@@ -289,7 +289,7 @@ test('order should be deleted', function () {
         'price'       => 100.00,
     ]);
 
-    $http = new Http();
+    $http      = new Http();
     $cookieJar = new CookieJar();
 
     $http->post(BASE_URL . '/auth/authenticate', [

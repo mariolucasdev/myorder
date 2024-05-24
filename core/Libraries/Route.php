@@ -60,7 +60,6 @@ final class Route
                         return $controller->{$method}($param);
                     }
 
-
                     return $controller->{$method}();
 
                     exit;
@@ -82,7 +81,7 @@ final class Route
     public static function post(string $route, callable|array $callback, $requireAuth = false)
     {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        $requestUri = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
+        $requestUri    = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
 
         if ($requestUri === $route) {
 
@@ -97,6 +96,7 @@ final class Route
 
                 if (!hash_equals($_ENV['APP_TOKEN'], $csrfToken)) {
                     header('HTTP/1.0 403 Forbidden');
+
                     exit;
                 }
             }
@@ -139,7 +139,7 @@ final class Route
     public static function put(string $route, callable|array $callback, $requireAuth = true)
     {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        $requestUri = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
+        $requestUri    = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
 
         $param  = false;
         $params = explode('/', $requestUri);
@@ -166,6 +166,7 @@ final class Route
 
                     if (!hash_equals($_ENV['APP_TOKEN'], $csrfToken)) {
                         header('HTTP/1.0 403 Forbidden');
+
                         exit;
                     }
                 }
@@ -209,7 +210,7 @@ final class Route
     public static function delete(string $route, callable|array $callback, $requireAuth = true)
     {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        $requestUri = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
+        $requestUri    = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
 
         $param  = false;
         $params = explode('/', $requestUri);
@@ -233,6 +234,7 @@ final class Route
 
                     if (!hash_equals($_ENV['APP_TOKEN'], $csrfToken)) {
                         header('HTTP/1.0 403 Forbidden');
+
                         exit;
                     }
                 }

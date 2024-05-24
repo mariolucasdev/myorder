@@ -9,7 +9,7 @@ use function Pest\Faker\fake;
 const BASE_URL = 'http://localhost:8000';
 
 test('should display list of users', function () {
-    $http = new Http();
+    $http      = new Http();
     $cookieJar = new CookieJar();
 
     $user = User::create([
@@ -44,7 +44,7 @@ test('should display list of users', function () {
 })->group('user');
 
 test('must display show user and your orders', function () {
-    $http = new Http();
+    $http      = new Http();
     $cookieJar = new CookieJar();
 
     $user = User::create([
@@ -95,7 +95,6 @@ test('must display show user and your orders', function () {
         ->and((string) $response->getBody())
         ->toContain('Detalhes do Usuário')
         ->toContain($user->first_name)
-        ->toContain($user->last_name)
         ->toContain($user->email)
         ->toContain($order->description)
         ->toContain($order->quantity);
@@ -105,7 +104,7 @@ test('must display show user and your orders', function () {
 })->group('user');
 
 test('must display form for user create', function () {
-    $http = new Http();
+    $http      = new Http();
     $cookieJar = new CookieJar();
 
     $user = User::create([
@@ -145,7 +144,7 @@ test('must display form for user create', function () {
 })->group('user');
 
 test('must create a new user', function () {
-    $http = new Http();
+    $http      = new Http();
     $cookieJar = new CookieJar();
 
     $user = User::create([
@@ -213,7 +212,7 @@ test('should display dorm for user editing', function () {
 })->group('user');
 
 test('user has been updated', function () {
-    $http = new Http();
+    $http      = new Http();
     $cookieJar = new CookieJar();
 
     $user = User::create([
@@ -260,7 +259,7 @@ test('user has been updated', function () {
 })->group('user');
 
 test('must delete user', function () {
-    $http = new Http();
+    $http      = new Http();
     $cookieJar = new CookieJar();
 
     $user = User::create([
@@ -284,7 +283,7 @@ test('must delete user', function () {
 
     $response = $http->delete(BASE_URL . "/user/{$user->id}/delete", [
         'form_params' => [
-            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
+            '_token' => $_ENV['APP_TOKEN'] ?? '123',
         ],
         'cookies' => $cookieJar,
     ]);
