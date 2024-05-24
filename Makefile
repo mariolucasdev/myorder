@@ -20,6 +20,7 @@ setup:
 	@echo "Connfigurando banco de dados... 🗃️"
 	@echo "======================================="
 	@mkdir -p ./.docker/db/mysql
+	@mkdir -p ./storage/cache
 	@echo "Permissões para pastas:"
 	@echo "	📁 .docker/db/mysql"
 	@echo "	📁 storage/cache"
