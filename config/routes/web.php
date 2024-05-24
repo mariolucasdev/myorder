@@ -4,14 +4,14 @@ use App\Controllers\{AuthController, OrderController, UserController};
 use Core\Libraries\{Route, View};
 
 Route::get('/', function () {
-    return View::render('home', ['title' => 'Home']);
+    View::render('home', ['title' => 'Home']);
 });
 
 Route::get('/auth/login', function () {
-    return View::render('auth/login', ['title' => 'Login']);
+    View::render('auth/login', ['title' => 'Login']);
 });
 Route::get('/auth/register', function () {
-    return View::render('auth/register', [
+    View::render('auth/register', [
         'title' => 'Fazer Registro',
     ]);
 });

@@ -12,7 +12,6 @@ $dotenv->load();
 
 /* start session */
 Session::init();
-Session::set('auth', false);
 
 /* init database */
 Database::init();

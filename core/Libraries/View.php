@@ -26,7 +26,7 @@ class View
         $twig->addGlobal('csrf_token', $_ENV['APP_TOKEN']);
 
         /* session auth data */
-        $twig->addGlobal('auth', Session::get('auth'));
+        $twig->addGlobal('auth', Session::get('auth') ?: false);
 
         /* session user data */
         $twig->addGlobal('user', Session::has('user') ? Session::get('user') : null);

@@ -12,8 +12,6 @@ final class Route
      */
     public static function get(string $route, callable|array $callback, $requireAuth = false)
     {
-        $auth = Session::get('auth');
-
         $requestUri = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
 
         $param  = false;
@@ -27,6 +25,7 @@ final class Route
         }
 
         if ($requestUri === $route) {
+
             $requestMethod = $_SERVER['REQUEST_METHOD'];
 
             if ($requestMethod !== 'GET') {
@@ -59,6 +58,8 @@ final class Route
                         return $controller->{$method}($param);
                     }
 
+                    Session::flash('requireAuth', $requireAuth);
+
                     return $controller->{$method}();
 
                     exit;
@@ -77,15 +78,15 @@ final class Route
      * @param string $route
      * @param callable|array<string> $callback
      */
-    public static function post(string $route, callable|array $callback, $requireAuth = true)
+    public static function post(string $route, callable|array $callback, $requireAuth = false)
     {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        $requestUri    = $_SERVER['REQUEST_URI'];
+        $requestUri = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
 
         if ($requestUri === $route) {
 
             if ($requestMethod !== 'POST') {
-                // header("HTTP/1.0 405 Method Not Allowed");
+                header("HTTP/1.0 405 Method Not Allowed");
 
                 exit;
             }
@@ -135,7 +136,7 @@ final class Route
     public static function put(string $route, callable|array $callback, $requireAuth = true)
     {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        $requestUri    = $_SERVER['REQUEST_URI'];
+        $requestUri = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
 
         $param  = false;
         $params = explode('/', $requestUri);
@@ -203,7 +204,7 @@ final class Route
     public static function delete(string $route, callable|array $callback, $requireAuth = true)
     {
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        $requestUri    = $_SERVER['REQUEST_URI'];
+        $requestUri = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
 
         $param  = false;
         $params = explode('/', $requestUri);

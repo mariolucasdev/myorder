@@ -25,7 +25,11 @@ final class Session
      */
     public static function get(string $key): mixed
     {
-        return $_SESSION[$key];
+        if(self::has($key)) {
+            return $_SESSION[$key];
+        }
+
+        return null;
     }
 
     /**

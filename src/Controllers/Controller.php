@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use Core\Libraries\Session;
 use Core\Libraries\View;
 
 class Controller
@@ -11,7 +12,9 @@ class Controller
      */
     public function __construct()
     {
-        //
+        if(Session::has('requireAuth') && Session::flash('requireAuth') === true && !Session::has('auth')) {
+            $this->redirect('/auth/login');
+        }
     }
 
     /**

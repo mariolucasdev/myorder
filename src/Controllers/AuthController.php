@@ -34,10 +34,10 @@ class AuthController extends Controller implements AuthControllerInterface
             $this->redirect('/auth/login');
         }
 
-        Session::set('user', $user);
         Session::set('auth', true);
+        Session::set('user', $user);
 
-        $this->redirect('/users');
+        $this->redirect('/');
     }
 
     /**
@@ -55,7 +55,7 @@ class AuthController extends Controller implements AuthControllerInterface
         Session::set('user', $user);
         Session::set('auth', true);
 
-        $this->redirect('/users');
+        $this->redirect('/');
     }
 
     /**

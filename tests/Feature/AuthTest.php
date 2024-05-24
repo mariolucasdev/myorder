@@ -42,7 +42,7 @@ test('should login user', function () {
     expect($response->getStatusCode())
         ->toBe(200)
         ->and((string) $response->getBody())
-        ->toContain('Usuários Cadastrados');
+        ->toContain('Seja bem vindo(a)');
 
     $user->delete();
 })->group('auth');
@@ -93,7 +93,7 @@ test('should register user', function () {
     expect($response->getStatusCode())
         ->toBe(200)
         ->and((string) $response->getBody())
-        ->toContain('Usuários Cadastrados');
+        ->toContain('Seja bem vindo(a)');
 
     User::destroy($user->id);
 })->group('auth');
