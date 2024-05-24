@@ -25,17 +25,14 @@ setup:
 	@echo "======================================="
 	@mkdir -p ./.docker/db/mysql
 	@mkdir -p ./storage/cache
-	@mkdir -p './tests/Architecture'
 	@echo "Permissões para pastas:"
 	@echo "	📁 .docker/db/mysql"
 	@echo "	📁 storage/cache"
-	@echo "	📁 tests/Architecture"
 	
 	@echo "======================================="
 	@echo "⚠️ Será necessário informar a senha do usuário root do MySQL para permissão nas pastas criadas listadas acima."
 	@sudo chmod -R 755 ./.docker/db/mysql
 	@sudo chmod -R 755 ./storage/cache
-	@sudo chmod -R 755 ./tests/Architecture
 	@echo "Configurando ambiente... 🛠️"
 	
 	@echo "======================================="
