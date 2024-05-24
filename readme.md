@@ -33,19 +33,17 @@ This is a simple application for managing orders.
 4. Once the Makefile has executed successfully, the application will be available at `localhost:8000`.
 
 ## Testes Unidade (Pest) 🧪
-
-    ```
-    composer test
-    ```
+   ```bash
+   composer test
+   ```
 
 ## Teste Análise Estática (PHPStan)
-
-    ```
-    composer phpstan
-    ```
+   ```bash
+   composer phpstan
+   ```
 
 ## Teste de Design de Código (Pint)
+   ```bash
+   composer pint
+   ```
 
-    ```
-    composer pint
-    ```
