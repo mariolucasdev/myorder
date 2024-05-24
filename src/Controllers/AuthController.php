@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Controller;
 use App\Interfaces\Auth\AuthControllerInterface;
 use App\Models\User;
 use App\Requests\User\UserRequest;
@@ -20,14 +19,12 @@ class AuthController extends Controller implements AuthControllerInterface
 
     /**
      * do login user
-     *
-     * @return void
      */
     public function login(array $request): void
     {
         $user = User::where('email', $request['email'])->first();
 
-        if (! $user || $request['birth_date'] != $user->birth_date) {
+        if (!$user || $request['birth_date'] != $user->birth_date) {
             Session::flash('error', 'Credenciais inválidas');
             $this->redirect('/auth/login');
         }
@@ -40,8 +37,6 @@ class AuthController extends Controller implements AuthControllerInterface
 
     /**
      * register user
-     *
-     * @return void
      */
     public function signup(array $request): void
     {
@@ -57,8 +52,6 @@ class AuthController extends Controller implements AuthControllerInterface
 
     /**
      * logout user
-     *
-     * @return void
      */
     public function logout(): void
     {

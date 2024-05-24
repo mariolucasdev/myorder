@@ -19,10 +19,6 @@ class Controller
 
     /**
      * render view file
-     *
-     * @param string $view
-     * @param array $data
-     * @return void
      */
     public function view(string $view, array $data = []): void
     {
@@ -31,9 +27,6 @@ class Controller
 
     /**
      * redirect to url
-     *
-     * @param string $url
-     * @return void
      */
     public function redirect(string $url): void
     {

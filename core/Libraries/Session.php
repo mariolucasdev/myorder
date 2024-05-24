@@ -6,8 +6,6 @@ final class Session
 {
     /**
      * start session
-     *
-     * @return void
      */
     public static function init(): void
     {
@@ -16,10 +14,6 @@ final class Session
 
     /**
      * set session key and value
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return void
      */
     public static function set(string $key, mixed $value): void
     {
@@ -28,9 +22,6 @@ final class Session
 
     /**
      * get session value by key
-     *
-     * @param string $key
-     * @return mixed
      */
     public static function get(string $key): mixed
     {
@@ -39,9 +30,6 @@ final class Session
 
     /**
      * check if session key exists
-     *
-     * @param string $key
-     * @return boolean
      */
     public static function has(string $key): bool
     {
@@ -51,8 +39,6 @@ final class Session
     /**
      * set flashdata
      *
-     * @param string $key
-     * @param mixed $value
      * @return mixed
      */
     public static function flash(string $key, mixed $value = null)
@@ -70,8 +56,7 @@ final class Session
     /**
      * remove session key
      *
-     * @param string $key
-     * @return void
+     * @param  string  $key
      */
     public static function remove($key): void
     {
@@ -80,8 +65,6 @@ final class Session
 
     /**
      * destroy session
-     *
-     * @return void
      */
     public static function destroy(): void
     {

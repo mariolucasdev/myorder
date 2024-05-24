@@ -1,21 +1,18 @@
 <?php
 
-use App\Controllers\UserController;
-use App\Controllers\AuthController;
-use App\Controllers\OrderController;
-use Core\Libraries\Route;
-use Core\Libraries\View;
+use App\Controllers\{AuthController, OrderController, UserController};
+use Core\Libraries\{Route, View};
 
 Route::get('/', function () {
     return View::render('home');
 });
 
 Route::get('/auth/login', function () {
-    return View::render('auth/login', [ 'title' => 'Login' ]);
+    return View::render('auth/login', ['title' => 'Login']);
 });
 Route::get('/auth/register', function () {
     return View::render('auth/register', [
-        'title' => 'Fazer Registro'
+        'title' => 'Fazer Registro',
     ]);
 });
 Route::get('/auth/logout', [AuthController::class, 'logout']);

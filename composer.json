@@ -15,7 +15,8 @@
         "pestphp/pest": "^2.34",
         "guzzlehttp/guzzle": "^7.8",
         "pestphp/pest-plugin-faker": "^2.0",
-        "pestphp/pest-plugin-watch": "^2.1"
+        "pestphp/pest-plugin-watch": "^2.1",
+        "laravel/pint": "^1.16"
     },
     "config": {
         "allow-plugins": {
@@ -23,6 +24,7 @@
         }
     },
     "scripts": {
-        "test": "docker compose exec app ./vendor/bin/pest"
+        "test": "docker compose exec app ./vendor/bin/pest",
+        "pint": "docker compose exec app ./vendor/bin/pint tests src core config"
     }
 }

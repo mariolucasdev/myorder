@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Controllers\Controller;
 use App\Interfaces\User\UserControllerInterface;
 use App\Models\User;
 use App\Requests\User\UserRequest;
@@ -20,8 +19,6 @@ class UserController extends Controller implements UserControllerInterface
 
     /**
      * List of users
-     *
-     * @return void
      */
     public function index(): void
     {
@@ -36,17 +33,15 @@ class UserController extends Controller implements UserControllerInterface
 
     /**
      * show user
-     *
-     * @return void
      */
     public function show(int $id): void
     {
         $title = 'Detalhes do Usuário';
 
-        $user = User::find($id);
+        $user   = User::find($id);
         $orders = $user->orders;
 
-        if(!$user) {
+        if (!$user) {
             Session::flash('error', 'Usuário não encontrado!');
 
             $this->redirect('/users');
@@ -57,8 +52,6 @@ class UserController extends Controller implements UserControllerInterface
 
     /**
      * create user form
-     *
-     * @return void
      */
     public function create(): void
     {
@@ -69,9 +62,6 @@ class UserController extends Controller implements UserControllerInterface
 
     /**
      * store user
-     *
-     * @param array $request
-     * @return void
      */
     public function store(array $request): void
     {
@@ -86,17 +76,14 @@ class UserController extends Controller implements UserControllerInterface
 
     /**
      * edit user form
-     *
-     * @param int $id
-     * @return void
      */
     public function edit(int $id): void
     {
-        $title = "Editar Usuário";
+        $title = 'Editar Usuário';
 
         $user = User::find($id);
 
-        if(!$user) {
+        if (!$user) {
             Session::flash('error', 'Usuário não encontrado!');
 
             $this->redirect('/users');
@@ -107,16 +94,12 @@ class UserController extends Controller implements UserControllerInterface
 
     /**
      * update user
-     *
-     * @param array $request
-     * @param int $id
-     * @return void
      */
     public function update(array $request, int $id): void
     {
         $user = User::find($id);
 
-        if(! $user) {
+        if (!$user) {
             Session::flash('error', 'Usuário não encontrado!');
 
             $this->redirect('/users');
@@ -133,15 +116,12 @@ class UserController extends Controller implements UserControllerInterface
 
     /**
      * delete user
-     *
-     * @param int $id
-     * @return void
      */
     public function delete(int $id): void
     {
         $user = User::find($id);
 
-        if(! $user) {
+        if (!$user) {
             Session::flash('error', 'Usuário não encontrado!');
 
             $this->redirect('/users');

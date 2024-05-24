@@ -9,10 +9,6 @@ class View
 {
     /**
      * render view file
-     *
-     * @param string $view
-     * @param array $data
-     * @return void
      */
     public static function render(string $view, array $data = []): void
     {

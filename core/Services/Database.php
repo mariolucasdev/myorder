@@ -2,8 +2,8 @@
 
 namespace Core\Services;
 
-use Illuminate\Database\Capsule\Manager as Capsule;
 use Dotenv\Dotenv;
+use Illuminate\Database\Capsule\Manager as Capsule;
 
 class Database
 {

@@ -15,7 +15,7 @@ class User extends Model
         'document',
         'email',
         'phone_number',
-        'birth_date'
+        'birth_date',
     ];
 
     /**

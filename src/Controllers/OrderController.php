@@ -9,6 +9,9 @@ use Core\Libraries\Session;
 
 class OrderController extends Controller implements OrderControllerInterface
 {
+    /**
+     * OrderController constructor
+     */
     public function __construct()
     {
         parent::__construct();
@@ -16,12 +19,10 @@ class OrderController extends Controller implements OrderControllerInterface
 
     /**
      * display list of orders
-     *
-     * @return void
      */
     public function index(): void
     {
-        $title = 'Listagem de Pedidos';
+        $title  = 'Listagem de Pedidos';
         $orders = Order::all();
 
         $this->view('orders/index', compact('orders', 'title'));
@@ -29,8 +30,6 @@ class OrderController extends Controller implements OrderControllerInterface
 
     /**
      * display form to create order
-     *
-     * @return void
      */
     public function create(): void
     {
@@ -43,9 +42,6 @@ class OrderController extends Controller implements OrderControllerInterface
 
     /**
      * store order
-     *
-     * @param array $request
-     * @return void
      */
     public function store(array $request): void
     {
@@ -60,9 +56,6 @@ class OrderController extends Controller implements OrderControllerInterface
 
     /**
      * display form to edit order
-     *
-     * @param int $id
-     * @return void
      */
     public function edit(int $id): void
     {
@@ -70,7 +63,7 @@ class OrderController extends Controller implements OrderControllerInterface
 
         $order = Order::find($id);
 
-        if(! $order) {
+        if (!$order) {
             Session::flash('error', 'Pedido não encontrado!');
 
             $this->redirect('/orders');
@@ -81,10 +74,6 @@ class OrderController extends Controller implements OrderControllerInterface
 
     /**
      * update order
-     *
-     * @param int $id
-     * @param array $request
-     * @return void
      */
     public function update(array $request, int $id): void
     {
@@ -92,7 +81,7 @@ class OrderController extends Controller implements OrderControllerInterface
 
         $order = Order::find($id);
 
-        if(! $order) {
+        if (!$order) {
             Session::flash('error', 'Pedido não encontrado!');
 
             $this->redirect('/orders');
@@ -105,11 +94,14 @@ class OrderController extends Controller implements OrderControllerInterface
         $this->redirect('/orders');
     }
 
+    /**
+     * delete order
+     */
     public function delete(int $id): void
     {
         $order = Order::find($id);
 
-        if(! $order) {
+        if (!$order) {
             Session::flash('error', 'Pedido não encontrado!');
 
             $this->redirect('/orders');
