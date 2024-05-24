@@ -2,11 +2,11 @@
 
 namespace App\Controllers;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Interfaces\Auth\AuthControllerInterface;
 use App\Models\User;
 use App\Requests\User\UserRequest;
 use Core\Libraries\Session;
+use Illuminate\Database\Eloquent\Model;
 
 class AuthController extends Controller implements AuthControllerInterface
 {

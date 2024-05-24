@@ -22,7 +22,7 @@ class OrderController extends Controller implements OrderControllerInterface
      */
     public function index(): void
     {
-        $title  = 'Listagem de Pedidos';
+        $title = 'Listagem de Pedidos';
 
         $orders = Order::all();
 
