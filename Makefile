@@ -21,12 +21,14 @@ setup:
 	@echo "======================================="
 	@mkdir -p ./.docker/db/mysql
 	@mkdir -p ./storage/cache
+	@mkdir -p './testes/Architecture'
 	@echo "Permissões para pastas:"
 	@echo "	📁 .docker/db/mysql"
 	@echo "	📁 storage/cache"
 	@echo "======================================="
 	@sudo chmod -R 755 ./.docker/db/mysql
 	@sudo chmod -R 755 ./storage/cache
+	@sudo chmod -R 755 ./testes/Architecture
 	@echo "Configurando ambiente... 🛠️"
 	@echo "======================================="
 	@docker compose exec app cp .env.example .env
