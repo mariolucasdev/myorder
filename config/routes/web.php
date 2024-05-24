@@ -34,3 +34,4 @@ Route::get('/order/create', [OrderController::class, 'create'], requireAuth: tru
 Route::post('/order/store', [OrderController::class, 'store'], requireAuth: true);
 Route::get('/order/{id}/edit', [OrderController::class, 'edit'], requireAuth: true);
 Route::put('/order/{id}/update', [OrderController::class, 'update'], requireAuth: true);
+Route::delete('/order/{id}/delete', [OrderController::class, 'delete'], requireAuth: true);

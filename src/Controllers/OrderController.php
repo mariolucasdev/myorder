@@ -105,4 +105,21 @@ class OrderController extends Controller implements OrderControllerInterface
 
         $this->redirect('/orders');
     }
+
+    public function delete(int $id): void
+    {
+        $order = Order::find($id);
+
+        if(! $order) {
+            Session::flash('error', 'Pedido não encontrado!');
+
+            $this->redirect('/orders');
+        }
+
+        $order->delete();
+
+        Session::flash('success', 'Pedido deletado com sucesso!');
+
+        $this->redirect('/orders');
+    }
 }

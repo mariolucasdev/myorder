@@ -9,4 +9,5 @@ interface OrderControllerInterface
     public function store(array $request): void;
     public function edit(int $id): void;
     public function update(array $request, int $id): void;
+    public function delete(int $id): void;
 }

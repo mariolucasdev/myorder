@@ -250,3 +250,40 @@ test('should be update order', function () {
     $order->delete();
     $user->delete();
 })->group('order');
+
+test('order should be deleted', function () {
+    $user = User::create([
+        'first_name' => fake()->firstName(),
+        'last_name' => fake()->lastName(),
+        'document' => fake()->shuffleString('12345678900'),
+        'email' => fake()->email(),
+        'phone_number' => fake()->shuffleString('12345678900'),
+        'birth_date' => fake()->date(),
+    ]);
+
+    $order = Order::create([
+        'user_id' => $user->id,
+        'description' => 'Order test',
+        'quantity' => 2,
+        'price' => 100.00,
+    ]);
+
+    $client = new Client();
+
+    $client->post(BASE_URL . '/auth/authenticate', [
+        'form_params' => [
+            'email' => $user->email,
+            'birth_date' => $user->birth_date
+        ]
+    ]);
+
+    $response = $client->post(BASE_URL . "/order/{$order->id}/delete");
+
+    expect($response->getStatusCode())
+        ->toBe(200);
+
+    expect((string) $response->getBody())
+        ->toContain('Listagem de Pedidos');
+
+    $user->delete();
+})->group('order');
