@@ -13,7 +13,7 @@ This is a simple application for managing orders.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/mariolucasdev/my-order.git
+   git clone https://github.com/mariolucasdev/myorder.git
    ```
 
 2. Navigate to the project directory::
