@@ -31,6 +31,7 @@ test('should be list orders', function () {
         'form_params' => [
             'email'      => $user->email,
             'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
     ]);
 
@@ -61,6 +62,7 @@ test('can be showed form to create order', function () {
         'form_params' => [
             'email'      => $user->email,
             'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
     ]);
 
@@ -91,6 +93,7 @@ test('can be store order', function () {
         'form_params' => [
             'email'      => $user->email,
             'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
     ]);
 
@@ -100,6 +103,7 @@ test('can be store order', function () {
             'description' => 'Order test',
             'quantity'    => 2,
             'price'       => 100.00,
+            '_token'      => $_ENV['APP_TOKEN'] ?? '123',
         ],
     ]);
 
@@ -127,6 +131,7 @@ test('assert price order', function () {
         'form_params' => [
             'email'      => $user->email,
             'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
     ]);
 
@@ -136,6 +141,7 @@ test('assert price order', function () {
             'description' => 'Order test',
             'quantity'    => 2,
             'price'       => 'R$ 100,00',
+            '_token'      => $_ENV['APP_TOKEN'] ??  '123',
         ],
     ]);
 
@@ -172,6 +178,7 @@ test('should be showed edit form to update order', function () {
         'form_params' => [
             'email'      => $user->email,
             'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
     ]);
 
@@ -210,6 +217,7 @@ test('should be update order', function () {
         'form_params' => [
             'email'      => $user->email,
             'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
     ]);
 
@@ -218,6 +226,7 @@ test('should be update order', function () {
         'description' => 'Order test updated',
         'quantity'    => 3,
         'price'       => '150.00',
+        '_token'      => $_ENV['APP_TOKEN'] ?? '123',
     ];
 
     $response = $http->post(BASE_URL . "/order/{$order->id}/update", [
@@ -264,10 +273,15 @@ test('order should be deleted', function () {
         'form_params' => [
             'email'      => $user->email,
             'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
     ]);
 
-    $response = $http->post(BASE_URL . "/order/{$order->id}/delete");
+    $response = $http->post(BASE_URL . "/order/{$order->id}/delete", [
+        'form_params' => [
+            '_token' => $_ENV['APP_TOKEN'] ?? '123',
+        ],
+    ]);
 
     expect($response->getStatusCode())
         ->toBe(200)

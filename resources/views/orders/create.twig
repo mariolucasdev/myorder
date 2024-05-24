@@ -12,6 +12,8 @@
     <div class="col-lg-8 mx-auto">
         <form action="{{ BASE_URL }}/order/store" method="POST">
 
+            <input type="hidden" name="_token" value="{{ csrf_token }}">
+            
             <input type="hidden" name="user_id" value="{{ user.id }}">
 
             <div class="form-group">

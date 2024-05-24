@@ -9,11 +9,10 @@ class Database
 {
     public static function init()
     {
-        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
-
-        $dotenv->load();
-
         $capsule = new Capsule();
+
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+        $dotenv->load();
 
         $capsule->addConnection([
             'driver'    => 'mysql',

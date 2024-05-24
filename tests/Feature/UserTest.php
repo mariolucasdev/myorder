@@ -1,17 +1,34 @@
 <?php
 
 use App\Models\User;
-use Core\Services\Database;
 use GuzzleHttp\Client as Http;
 
 use function Pest\Faker\fake;
 
-Database::init();
-
 const BASE_URL = 'http://localhost:8000';
 
 test('should display list of users', function () {
-    $http = new Http();
+    $http = new Http([
+        'cookies' => true,
+    ]);
+
+    $user = User::create([
+        'first_name'   => fake()->firstName(),
+        'last_name'    => fake()->lastName(),
+        'document'     => '99999999999',
+        'email'        => fake()->email(),
+        'phone_number' => '99999999999',
+        'birth_date'   => fake()->date('Y-m-d'),
+        '_token'       => $_ENV['APP_TOKEN'] ?? '123',
+    ]);
+
+    $http->post(BASE_URL . '/auth/authenticate', [
+        'form_params' => [
+            'email'      => $user->email,
+            'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
+        ],
+    ]);
 
     $response = $http->get(BASE_URL . '/users');
 
@@ -19,6 +36,8 @@ test('should display list of users', function () {
         ->toBe(200)
         ->and((string) $response->getBody())
         ->toContain('Usuários Cadastrados');
+
+    $user->delete();
 })->group('user');
 
 test('must display show user and your orders', function () {
@@ -37,6 +56,7 @@ test('must display show user and your orders', function () {
         'form_params' => [
             'email'      => $user->email,
             'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
     ]);
 
@@ -48,6 +68,7 @@ test('must display show user and your orders', function () {
             'email'        => fake()->email(),
             'phone_number' => fake()->phoneNumber(),
             'birth_date'   => fake()->date('Y-m-d'),
+            '_token'       => $_ENV['APP_TOKEN'] ?? '123',
         ],
     ]);
 
@@ -75,7 +96,7 @@ test('must display show user and your orders', function () {
     $user->orders()->delete();
 })->group('user');
 
-test('must display form for user editing', function () {
+test('must display form for user create', function () {
     $http = new Http();
 
     $response = $http->get(BASE_URL . '/user/create');
@@ -102,6 +123,7 @@ test('must create a new user', function () {
         'email'        => fake()->email(),
         'phone_number' => fake()->phoneNumber(),
         'birth_date'   => fake()->date('Y-m-d'),
+        '_token'       => $_ENV['APP_TOKEN'] ?? '123',
     ];
 
     $response = $http->post(BASE_URL . '/user/store', [
@@ -158,6 +180,7 @@ test('user has been updated', function () {
         'email'        => fake()->email(),
         'phone_number' => fake()->shuffleString('01234567899'),
         'birth_date'   => fake()->date('Y-m-d'),
+        '_token'       => $_ENV['APP_TOKEN'] ?? '123',
     ];
 
     $response = $http->post(BASE_URL . "/user/{$user->id}/update", [
@@ -185,6 +208,7 @@ test('must delete user', function () {
         'email'        => fake()->email(),
         'phone_number' => fake()->shuffleString('01234567899'),
         'birth_date'   => fake()->date('Y-m-d'),
+        '_token'       => $_ENV['APP_TOKEN'] ?? '123',
     ]);
 
     $response = $http->delete(BASE_URL . "/user/{$user->id}/delete");

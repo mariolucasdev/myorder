@@ -22,6 +22,9 @@ class View
         /* @phpstan-ignore-next-line */
         $twig->addGlobal('BASE_URL', BASE_URL);
 
+        /* csrf token */
+        $twig->addGlobal('csrf_token', $_ENV['APP_TOKEN']);
+
         /* session auth data */
         $twig->addGlobal('auth', Session::get('auth'));
 

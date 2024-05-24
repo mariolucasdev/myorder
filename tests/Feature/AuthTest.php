@@ -35,6 +35,7 @@ test('should login user', function () {
         'form_params' => [
             'email'      => $user->email,
             'birth_date' => $user->birth_date,
+            '_token'     => $_ENV['APP_TOKEN'] ?? '123',
         ],
     ]);
 
@@ -42,6 +43,8 @@ test('should login user', function () {
         ->toBe(200)
         ->and((string) $response->getBody())
         ->toContain('Usuários Cadastrados');
+
+    $user->delete();
 })->group('auth');
 
 test('should logout user', function () {
@@ -69,19 +72,28 @@ test('should display register form', function () {
 test('should register user', function () {
     $http = new Http();
 
+    $userData = [
+        'first_name'   => fake()->firstName(),
+        'last_name'    => fake()->lastName(),
+        'document'     => fake()->shuffleString('0123456789'),
+        'email'        => fake()->email(),
+        'phone_number' => fake()->shuffleString('01234567899'),
+        'birth_date'   => fake()->date('Y-m-d'),
+        '_token'       => $_ENV['APP_TOKEN'] ?? '123',
+    ];
+
     $response = $http->post(BASE_URL . '/auth/signup', [
-        'form_params' => [
-            'first_name'   => fake()->firstName(),
-            'last_name'    => fake()->lastName(),
-            'document'     => fake()->shuffleString('0123456789'),
-            'email'        => fake()->email(),
-            'phone_number' => fake()->shuffleString('01234567899'),
-            'birth_date'   => fake()->date('Y-m-d'),
-        ],
+        'form_params' => $userData,
     ]);
+
+    $user = User::where('document', $userData['document'])
+        ->where('email', $userData['email'])
+        ->first();
 
     expect($response->getStatusCode())
         ->toBe(200)
         ->and((string) $response->getBody())
         ->toContain('Usuários Cadastrados');
+
+    User::destroy($user->id);
 })->group('auth');

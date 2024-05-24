@@ -4,7 +4,7 @@ use App\Controllers\{AuthController, OrderController, UserController};
 use Core\Libraries\{Route, View};
 
 Route::get('/', function () {
-    return View::render('home');
+    return View::render('home', ['title' => 'Home']);
 });
 
 Route::get('/auth/login', function () {

@@ -10,9 +10,11 @@ final class Route
      * @param string $route
      * @param callable|array<string> $callback
      */
-    public static function get(string $route, callable|array $callback, $requireAuth = true)
+    public static function get(string $route, callable|array $callback, $requireAuth = false)
     {
-        $requestUri = $_SERVER['REQUEST_URI'];
+        $auth = Session::get('auth');
+
+        $requestUri = filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
 
         $param  = false;
         $params = explode('/', $requestUri);
@@ -25,11 +27,9 @@ final class Route
         }
 
         if ($requestUri === $route) {
-
             $requestMethod = $_SERVER['REQUEST_METHOD'];
 
             if ($requestMethod !== 'GET') {
-
                 exit;
             }
 
@@ -90,6 +90,15 @@ final class Route
                 exit;
             }
 
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $csrfToken = $_POST['_token'] ?? '';
+
+                if (!hash_equals($_ENV['APP_TOKEN'], $csrfToken)) {
+                    header('HTTP/1.0 403 Forbidden');
+                    exit;
+                }
+            }
+
             if (is_callable($callback)) {
                 return $callback();
 
@@ -147,6 +156,15 @@ final class Route
                 header('HTTP/1.0 405 Method Not Allowed');
 
                 exit;
+            } else {
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $csrfToken = $_POST['_token'] ?? '';
+
+                    if (!hash_equals($_ENV['APP_TOKEN'], $csrfToken)) {
+                        header('HTTP/1.0 403 Forbidden');
+                        exit;
+                    }
+                }
             }
 
             if (is_callable($callback)) {
@@ -203,6 +221,15 @@ final class Route
                 header('HTTP/1.0 405 Method Not Allowed');
 
                 exit;
+            } else {
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $csrfToken = $_POST['_token'] ?? '';
+
+                    if (!hash_equals($_ENV['APP_TOKEN'], $csrfToken)) {
+                        header('HTTP/1.0 403 Forbidden');
+                        exit;
+                    }
+                }
             }
 
             if (is_callable($callback)) {
